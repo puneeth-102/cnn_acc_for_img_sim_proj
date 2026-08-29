@@ -1,0 +1,19 @@
+# VCS simulation outputs
+run/simv
+run/simv.daidir/
+run/csrc/
+run/*.log
+run/ucli.key
+run/vc_hdrs.h
+run/novas.conf
+run/novas.rc
+run/verdiLog/
+run/DVEfiles/
+
+# FSDB waveforms are large – keep one in git if desired, exclude others
+# run/*.fsdb
+
+# Synopsys DC
+*.syn
+*.sdc
+AN.DB/
