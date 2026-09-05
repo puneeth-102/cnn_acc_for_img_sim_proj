@@ -1,0 +1,108 @@
+##########################################################################
+#  AES AXI4-Lite Wrapper — VCS + Verdi Simulation Makefile
+#  Run from:  sim/rtl_sim/run/
+#  Usage:
+#    make -f Makefile_axi compile  – elaborate with VCS
+#    make -f Makefile_axi sim      – compile + simulate (FSDB generated)
+#    make -f Makefile_axi verdi    – open Verdi with FSDB
+#    make -f Makefile_axi all      – compile + sim + verdi
+#    make -f Makefile_axi clean    – remove generated files
+##########################################################################
+
+SHELL = /bin/sh
+
+##########################################################################
+# Tool paths
+##########################################################################
+VCS_HOME   ?= /home/student/snps_tools_target/vcs/U-2023.03
+VERDI_HOME ?= /home/student/snps_tools_target/verdi/U-2023.03-SP1
+
+VCS   = $(VCS_HOME)/bin/vcs
+VERDI = $(VERDI_HOME)/bin/verdi
+
+export VCS_HOME
+export VERDI_HOME
+export SNPSLMD_LICENSE_FILE = 27021@14.139.1.126
+
+##########################################################################
+# Source lists
+##########################################################################
+DUT_DIR = ../../../rtl/verilog
+TB_DIR  = ../../../bench/verilog
+
+DUT_SRCS = \
+    $(DUT_DIR)/aes_sbox.v            \
+    $(DUT_DIR)/aes_rcon.v            \
+    $(DUT_DIR)/aes_key_expand_128.v  \
+    $(DUT_DIR)/aes_cipher_top.v      \
+    $(DUT_DIR)/aes_inv_sbox.v        \
+    $(DUT_DIR)/aes_inv_cipher_top.v  \
+    $(DUT_DIR)/aes_axi_slave.v       \
+    $(DUT_DIR)/aes_reg_map.v         \
+    $(DUT_DIR)/aes_axi_top.v
+
+TB_SRCS = $(TB_DIR)/aes_axi_tb.v
+
+ALL_SRCS = $(DUT_SRCS) $(TB_SRCS)
+
+##########################################################################
+# Options
+##########################################################################
+TOP_MODULE = aes_axi_tb
+FSDB_FILE  = waves/aes_axi_dump.fsdb
+
+INCDIRS = +incdir+$(DUT_DIR) +incdir+$(TB_DIR)
+
+NOVAS_TAB = $(VERDI_HOME)/share/PLI/VCS/LINUX64/novas.tab
+NOVAS_PLA = $(VERDI_HOME)/share/PLI/VCS/LINUX64/pli.a
+
+VCS_FLAGS = \
+    -full64               \
+    -sverilog             \
+    -timescale=1ns/1ps    \
+    $(INCDIRS)            \
+    -P $(NOVAS_TAB)       \
+    $(NOVAS_PLA)          \
+    -o simv_axi           \
+    -l compile_axi.log
+
+SIM_FLAGS = \
+    +fsdb+autoflush       \
+    -l sim_axi.log
+
+##########################################################################
+# Targets
+##########################################################################
+.PHONY: all compile sim verdi clean
+
+all: sim verdi
+
+compile:
+	@echo "==> Compiling AES AXI wrapper with VCS ..."
+	@mkdir -p waves
+	$(VCS) $(VCS_FLAGS) $(ALL_SRCS)
+	@echo "==> Compile done. Check compile_axi.log for warnings."
+
+sim: compile
+	@echo "==> Running AXI simulation ..."
+	./simv_axi $(SIM_FLAGS)
+	@echo "==> Simulation done. FSDB: $(FSDB_FILE)"
+
+verdi:
+	@echo "==> Opening Verdi ..."
+	$(VERDI) -sv                    \
+	    $(INCDIRS)                  \
+	    -ssf $(FSDB_FILE)           \
+	    -top $(TOP_MODULE)          \
+	    $(ALL_SRCS) &
+
+clean:
+	@echo "==> Cleaning AXI sim files ..."
+	rm -rf simv_axi simv_axi.daidir csrc \
+	       compile_axi.log sim_axi.log   \
+	       ucli.key vc_hdrs.h            \
+	       waves/aes_axi_dump.fsdb       \
+	       verdiLog novas.conf 64 AN.DB
+	@echo "==> Done."
+
+##########################################################################
