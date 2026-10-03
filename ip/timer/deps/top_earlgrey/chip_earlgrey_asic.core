@@ -1,0 +1,102 @@
+CAPI=2:
+# Copyright lowRISC contributors (OpenTitan project).
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+name: "lowrisc:systems:chip_earlgrey_asic:0.1"
+description: "Earl Grey chip level"
+filesets:
+  files_rtl:
+    depend:
+      - lowrisc:systems:top_earlgrey:0.1
+      - lowrisc:systems:top_earlgrey_pkg
+      - lowrisc:systems:top_earlgrey_padring
+      - lowrisc:virtual_systems:top_earlgrey_ast
+      - lowrisc:virtual_systems:top_earlgrey_pad_orient_pkg
+      - lowrisc:virtual_systems:top_earlgrey_scan_role_pkg
+      # Which technology library resolves this is chosen by --mapping.
+      - lowrisc:virtual_prim_tech:all
+    files:
+      - rtl/autogen/chip_earlgrey_asic.sv
+    file_type: systemVerilogSource
+
+  files_verilator_waiver:
+    depend:
+      # common waivers
+      - lowrisc:lint:common
+      - lowrisc:lint:comportable
+    file_type: vlt
+
+  files_ascentlint_waiver:
+    depend:
+      # common waivers
+      - lowrisc:lint:common
+      - lowrisc:lint:comportable
+    files:
+      - lint/chip_earlgrey_asic.waiver
+    file_type: waiver
+
+  files_veriblelint_waiver:
+    depend:
+      # common waivers
+      - lowrisc:lint:common
+      - lowrisc:lint:comportable
+
+  files_slang_waiver:
+    depend:
+      # common waivers
+      - lowrisc:lint:common
+      - lowrisc:lint:comportable
+
+mapping:
+  # The chip is what knows which analog top, pads, scan roles and JTAG ID it is
+  # built with, so it owns their selection.  Apply them with
+  # --mapping=lowrisc:systems:chip_earlgrey_asic:0.1; a partner supplies a core
+  # declaring the same virtual VLNVs and maps that instead.
+  "lowrisc:virtual_systems:top_earlgrey_ast"           : "lowrisc:systems:top_earlgrey_ast"
+  "lowrisc:virtual_systems:top_earlgrey_pad_orient_pkg": "lowrisc:earlgrey_systems:pad_orient_pkg"
+  "lowrisc:virtual_systems:top_earlgrey_scan_role_pkg" : "lowrisc:earlgrey_systems:scan_role_pkg"
+  "lowrisc:virtual_systems:top_earlgrey_physical_pads" : "lowrisc:systems:top_earlgrey_physical_pads"
+  "lowrisc:virtual_constants:top_earlgrey_jtag_id_pkg" : "lowrisc:constants:top_earlgrey_jtag_id_pkg"
+
+parameters:
+  SYNTHESIS:
+    datatype: bool
+    paramtype: vlogdefine
+
+targets:
+  default: &default_target
+    filesets:
+      - tool_verilator   ? (files_verilator_waiver)
+      - tool_ascentlint  ? (files_ascentlint_waiver)
+      - tool_veriblelint ? (files_veriblelint_waiver)
+      - tool_slang       ? (files_slang_waiver)
+      - files_rtl
+    toplevel: chip_earlgrey_asic
+
+  lint:
+    <<: *default_target
+    default_tool: verilator
+    parameters:
+      - SYNTHESIS=true
+    tools:
+      verilator:
+        mode: lint-only
+        verilator_options:
+          - "-Wall"
+      slang:
+        slang_options:
+          - "-Wno-port-coercion"
+
+  syn:
+    <<: *default_target
+    # TODO: set default to DC once
+    # this option is available
+    # olofk/edalize#89
+    default_tool: icarus
+    parameters:
+      - SYNTHESIS=true
+    toplevel: chip_earlgrey_asic
+
+  formal:
+    <<: *default_target
+    toplevel: chip_earlgrey_asic

@@ -1,64 +1,58 @@
 `timescale 1ns/1ps
 
-module embedding_memory #(
-    parameter DATA_WIDTH = 32,
-    parameter DEPTH      = 16
+module similarity_checker #(
+    parameter EMBEDDING_SIZE = 16,
+    parameter DATA_WIDTH     = 32,
+    parameter DIST_WIDTH     = 40
 )(
-    input logic clk,
-    input logic rst,
+    input  logic clk,
+    input  logic rst,
+    input  logic start,
 
-    input logic                     write_en,
-    input logic [$clog2(DEPTH)-1:0] write_addr,
+    input  logic signed [DATA_WIDTH-1:0] query_embedding [0:EMBEDDING_SIZE-1],
+    input  logic signed [DATA_WIDTH-1:0] reference_embedding [0:EMBEDDING_SIZE-1],
 
-    input logic signed [DATA_WIDTH-1:0] write_data,
+    input  logic [DIST_WIDTH-1:0]        threshold,
 
-    output wire signed [DATA_WIDTH-1:0]
-        reference_embedding [0:DEPTH-1]
+    output logic [DIST_WIDTH-1:0]        distance,
+    output logic                         similar,
+    output logic                         done
 );
 
-    // --------------------------------------------------
-    // Embedding memory
-    // --------------------------------------------------
+    logic signed [DIST_WIDTH-1:0] calc_distance;
+    logic                         calc_similar;
 
-    logic signed [DATA_WIDTH-1:0] mem [0:DEPTH-1];
+    distance #(
+        .DATA_W(DATA_WIDTH),
+        .EMB_W(EMBEDDING_SIZE),
+        .DIST_W(DIST_WIDTH)
+    ) u_dist (
+        .embedding_a(query_embedding),
+        .embedding_b(reference_embedding),
+        .distance(calc_distance)
+    );
 
-    integer i;
-
-    // --------------------------------------------------
-    // Write reference embedding
-    // --------------------------------------------------
+    threshold #(
+        .DIST_W(DIST_WIDTH)
+    ) u_thresh (
+        .distance(calc_distance),
+        .threshold_value(threshold),
+        .similar(calc_similar)
+    );
 
     always_ff @(posedge clk) begin
-
         if (rst) begin
-
-            for (i = 0; i < DEPTH; i = i + 1)
-                mem[i] <= '0;
-
+            distance <= '0;
+            similar  <= 1'b0;
+            done     <= 1'b0;
+        end else begin
+            done <= 1'b0;
+            if (start) begin
+                distance <= calc_distance;
+                similar  <= calc_similar;
+                done     <= 1'b1;
+            end
         end
-
-        else if (write_en) begin
-
-            mem[write_addr] <= write_data;
-
-        end
-
     end
-
-    // --------------------------------------------------
-    // Read entire stored embedding
-    // --------------------------------------------------
-
-    genvar g;
-
-    generate
-
-        for (g = 0; g < DEPTH; g = g + 1) begin
-
-            assign reference_embedding[g] = mem[g];
-
-        end
-
-    endgenerate
 
 endmodule

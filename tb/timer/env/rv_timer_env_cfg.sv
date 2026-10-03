@@ -1,0 +1,22 @@
+// Copyright lowRISC contributors (OpenTitan project).
+// Licensed under the Apache License, Version 2.0, see LICENSE for details.
+// SPDX-License-Identifier: Apache-2.0
+
+class rv_timer_env_cfg extends cip_base_env_cfg #(.RAL_T(rv_timer_reg_block));
+  `uvm_object_utils(rv_timer_env_cfg)
+  `uvm_object_new
+
+  virtual function void initialize(bit inherit_ral_models = 1'b0);
+    list_of_alerts = rv_timer_env_pkg::LIST_OF_ALERTS;
+    super.initialize(inherit_ral_models);
+    // set num_interrupts
+    num_interrupts = NUM_HARTS * NUM_TIMERS;
+
+    // only support 1 outstanding TL item
+    m_tl_agent_cfg.max_outstanding_req = 1;
+
+    // Allow mid-TL-US accesses
+    can_reset_with_csr_accesses = 1;
+  endfunction
+
+endclass

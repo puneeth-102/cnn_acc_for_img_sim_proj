@@ -489,6 +489,63 @@ initial begin
     end
 
     // ==================================================
+    // TEST 7: "Hello, World!\n" string TX→RX loopback
+    // Simulates what a CPU firmware printf would do:
+    //   for each character: write ASCII byte to THR,
+    //   wait frame time, read back from RBR, compare.
+    // The 13 characters + newline are sent one at a time.
+    // ==================================================
+    $display("--- TEST 7: \"Hello, World!\" String Loopback ---");
+    begin : t7
+        // "Hello, World!\n" = 14 characters
+        reg [7:0] hello [0:13];
+        reg [7:0] hrx;
+        integer   k;
+        integer   ok7;
+
+        hello[0]  = 8'h48; // 'H'
+        hello[1]  = 8'h65; // 'e'
+        hello[2]  = 8'h6C; // 'l'
+        hello[3]  = 8'h6C; // 'l'
+        hello[4]  = 8'h6F; // 'o'
+        hello[5]  = 8'h2C; // ','
+        hello[6]  = 8'h20; // ' '
+        hello[7]  = 8'h57; // 'W'
+        hello[8]  = 8'h6F; // 'o'
+        hello[9]  = 8'h72; // 'r'
+        hello[10] = 8'h6C; // 'l'
+        hello[11] = 8'h64; // 'd'
+        hello[12] = 8'h21; // '!'
+        hello[13] = 8'h0A; // '\n'
+
+        ok7 = 1;
+        $display("  Sending: \"Hello, World!\\n\" (14 bytes)");
+        $display("  Char  TX    RX    Match");
+        $display("  ----  ----  ----  -----");
+
+        for (k = 0; k < 14; k = k + 1) begin
+            uart_send(hello[k]);
+            uart_recv(hrx);
+            $write("   %s    0x%02h  0x%02h  ", (hello[k] == 8'h0A) ? "\\n" : $sformatf("%c", hello[k]), hello[k], hrx);
+            if (hrx === hello[k]) begin
+                $display("PASS");
+            end else begin
+                $display("FAIL ***");
+                ok7 = 0;
+            end
+        end
+
+        $display("");
+        if (ok7) begin
+            $display("  RESULT: PASS — \"Hello, World!\" transmitted and received correctly\n");
+            pass_cnt = pass_cnt + 1;
+        end else begin
+            $display("  RESULT: FAIL *** character mismatch in Hello string ***\n");
+            fail_cnt = fail_cnt + 1;
+        end
+    end
+
+    // ==================================================
     // Summary  (mirrors AES testbench format)
     // ==================================================
     $display("============================================");

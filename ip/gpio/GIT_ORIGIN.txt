@@ -1,0 +1,16 @@
+IP Name: General Purpose Input/Output (GPIO)
+Repository: https://github.com/pulp-platform/gpio
+Commit: 8a9e71e64b588c49f66794fa655e35d4ccb038cb
+Author: Francesco Conti <FrancescoConti@users.noreply.github.com>
+Date:   Thu Jan 30 11:37:35 2025 +0100
+Subject: Merge pull request #9 from pulp-platform/FrancescoConti-patch-1
+
+Dependencies (in deps/):
+1. common_cells: https://github.com/pulp-platform/common_cells.git (version 1.21.0+)
+2. register_interface: https://github.com/pulp-platform/register_interface.git (version 0.4.1+)
+3. axi: https://github.com/pulp-platform/axi.git (version 0.39.0+)
+4. apb: https://github.com/pulp-platform/apb.git (version 0.2.4+)
+5. tech_cells_generic: https://github.com/pulp-platform/tech_cells_generic.git (version 0.2.9+)
+
+Target Path: rtl/gpio/ (alias root: gpio/)
+Testbench Path: tb/gpio/

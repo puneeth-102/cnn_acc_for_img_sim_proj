@@ -1,0 +1,21 @@
+IP Name: RISC-V 64-bit Timer (rv_timer)
+Repository: https://github.com/lowRISC/opentitan
+Path in repo: hw/ip/rv_timer
+Commit: 8cfac43aa637fc6acdce3a290d8ffc6c82e3659c
+Author: Harry Callahan <hcallahan@lowrisc.org>
+Date:   Fri Oct 2 16:44:11 2026 +0100
+Subject: [nix] Bump lowrisc-nix
+
+Key RTL Modules:
+1. timer_core.sv: RISC-V standard 64-bit mtime/mtimecmp timer core with prescaler and interrupt generation
+2. rv_timer.sv: Top-level wrapper with OpenTitan bus/alert interface
+3. rv_timer_reg_top.sv: Auto-generated register top module
+4. rv_timer_reg_pkg.sv: Register package definition
+
+Dependencies (in deps/):
+1. hw/ip/prim: OpenTitan primitives (assertions, subreg, etc.)
+2. hw/ip/tlul: TileLink-UL interface definitions
+3. hw/top_earlgrey: Top-level package definitions
+
+Target Path: rtl/timer/ (alias: rtl/rv_timer/, root: rv_timer/)
+Testbench Path: tb/timer/

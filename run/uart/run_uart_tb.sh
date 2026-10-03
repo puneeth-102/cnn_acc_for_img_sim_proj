@@ -48,11 +48,13 @@ vcs -full64 \
     rtl/uart/uart_controller.v \
     rtl/uart/axi_uart_top.v \
     tb/uart/uart_axi_tb.v \
+    -P /home/student/snps_tools_target/verdi/U-2023.03-SP1/share/PLI/VCS/LINUX64/novas.tab \
+       /home/student/snps_tools_target/verdi/U-2023.03-SP1/share/PLI/VCS/LINUX64/pli.a \
     -o "${SIMV_NAME}" \
     -l "${COMPILE_LOG}"
 
 echo "Compile done -> ${COMPILE_LOG}"
-echo ""
+echo 
 
 # -------------------------------------------------------------
 # Step 2: Simulate
