@@ -1,0 +1,721 @@
+SPECIFICATION DOCUMENT
+RISC-V SoC with Hardware-Accelerated CNN-Based Image Similarity and Anomaly Detection
+Implementation-ready specification for Kiro / RTL development
+0. Document Purpose
+This document converts the current project architecture into an implementation-oriented specification that can be supplied to Kiro for RTL generation and integration. It defines the system architecture, control path, data path, 2-master × 8-slave memory-mapped interconnect, memory map, registers, signals, errors, interrupts, operation sequence, and verification requirements.
+Important architecture terminology: the conceptual system bus is specified as a 32-bit memory-mapped bus. The faculty-provided interconnect generator may be used as the RTL implementation mechanism; this document does not redefine the conceptual bus as AXI unless the implementation interface requires it.
+1. Introduction
+1.1 Project Title
+Design of a RISC-V SoC with a Hardware-Accelerated CNN-Based Image Similarity and Anomaly Detection Engine
+1.2 System Description
+The proposed project implements a RISC-V based System-on-Chip for embedded image similarity and anomaly detection. A small grayscale image is processed by a lightweight CNN accelerator to generate a compact embedding. The generated embedding is compared against stored reference embeddings. The distance/anomaly engine calculates the distance to each reference, selects the minimum distance, and compares it against a programmable threshold to classify the input as MATCH or ANOMALY.
+The RISC-V processor is the system controller. Three project-specific IPs are integrated: (1) CNN Feature Extraction Accelerator, (2) Distance/Anomaly Scoring Engine, and (3) DMA Controller. The SoC also contains faculty-provided RISC-V, IMEM, DMEM, UART, Timer and GPIO.
+1.3 Problem Statement
+Software-only CNN inference on a general-purpose processor requires many multiply-accumulate operations and can increase latency and CPU utilization. Dedicated hardware is therefore used for CNN feature extraction and distance scoring while the RISC-V performs configuration, sequencing and result management.
+1.4 Objectives
+Integrate the faculty-provided RISC-V processor into a complete SoC.
+Provide memory-mapped access to all peripherals and project IPs.
+Implement a lightweight CNN feature-extraction accelerator.
+Support INT8 image and weight processing.
+Generate a compact embedding vector from the input image.
+Compare the query embedding with multiple reference embeddings.
+Support a configurable distance metric and anomaly threshold.
+Implement DMA-based movement of image, weight and embedding data.
+Provide interrupt-based completion notification.
+Report the final classification through software/UART and optionally GPIO.
+Verify hardware results against a Python/NumPy golden model.
+2. Top-Level Architecture
+The top-level functional blocks are:
+RISC-V Core — primary system master; configures IP registers, starts operations, polls status and handles interrupts.
+32-bit Memory-Mapped System Bus / Interconnect — routes transactions according to the memory map.
+DMA Controller — secondary bus master for bulk data movement and a memory-mapped slave for CPU configuration.
+CNN Accelerator — performs input buffering, INT8 convolution/MAC processing, pooling and embedding generation.
+Distance/Anomaly Engine — performs query/reference distance calculation, minimum-distance selection and threshold comparison.
+IMEM — instruction memory.
+DMEM — 64-KB data memory holding input image, CNN weights, reference embeddings and generated/query embeddings.
+UART, Timer and GPIO — standard SoC peripherals.
+2.1 Master / Slave Definition
+Item
+Count
+Role
+Masters
+2
+M0 RISC-V Core; M1 DMA Controller
+Addressable slave regions
+8
+IMEM, DMEM, UART, Timer, GPIO, CNN, Distance Engine, DMA registers
+DMA
+Both
+Master for data transfers; slave for memory-mapped configuration/status
+2.2 Conceptual Interconnect
+The interconnect has two incoming master interfaces and eight decoded slave targets. The RISC-V normally initiates configuration and memory transactions. DMA requests bus ownership when it performs bulk transfers. A fixed-priority arbitration policy may be used, with CPU transactions retaining normal priority and DMA obtaining access according to the project arbitration policy.
+Conceptual connectivity: RISC-V → Interconnect; DMA master → Interconnect; Interconnect → IMEM/DMEM/UART/Timer/GPIO/CNN/Distance/DMA-register interface.
+3. Full Memory Map
+The following map is the implementation baseline for the 2×8 interconnect. IMEM and DMEM use 64-KB regions. Each peripheral/IP occupies one 4-KB memory-mapped region.
+Port
+Slave
+Base Address
+End Address
+Size
+Addr Width
+M00
+IMEM
+0x0000_0000
+0x0000_FFFF
+64 KB
+16 bits
+M01
+DMEM
+0x1000_0000
+0x1000_FFFF
+64 KB
+16 bits
+M02
+UART
+0x2000_0000
+0x2000_0FFF
+4 KB
+12 bits
+M03
+Timer
+0x2000_1000
+0x2000_1FFF
+4 KB
+12 bits
+M04
+GPIO
+0x2000_2000
+0x2000_2FFF
+4 KB
+12 bits
+M05
+CNN Accelerator
+0x2000_3000
+0x2000_3FFF
+4 KB
+12 bits
+M06
+Distance/Anomaly Engine
+0x2000_4000
+0x2000_4FFF
+4 KB
+12 bits
+M07
+DMA Controller Registers
+0x2000_5000
+0x2000_5FFF
+4 KB
+12 bits
+3.1 Interconnect Generator Configuration
+For the faculty-provided Python wrapper, use the 2-master × 8-slave configuration:
+python3 axi_interconnect_wrap.py -p 2 8
+In the wrapper naming convention, S_COUNT=2 represents the two incoming master-side interfaces, while M_COUNT=8 represents the eight outgoing slave-side interfaces. The project-level naming used in this document is M0/M1 for functional bus masters and M00–M07 for decoded slave targets to avoid ambiguity.
+4. Control Path
+The control path is software-driven. RISC-V writes configuration registers, asserts START bits, monitors BUSY/DONE/ERROR status, and services completion interrupts. Control/status registers are memory mapped through the system bus.
+Source
+Control/Status
+Destination
+RISC-V
+configuration writes / START
+CNN Accelerator
+RISC-V
+configuration writes / START
+Distance/Anomaly Engine
+RISC-V
+configuration writes / START
+DMA Controller
+CNN
+BUSY/DONE/ERROR + ACCEL_DONE_IRQ
+RISC-V
+Distance Engine
+BUSY/DONE/ERROR + SCORE_DONE_IRQ
+RISC-V
+DMA
+BUSY/DONE/ERROR + DMA_DONE_IRQ
+RISC-V
+RISC-V
+status reads
+all project IPs
+4.1 High-Level Control Sequence
+Initialize/reset the SoC and accelerator blocks.
+RISC-V configures CNN base addresses and dimension parameters.
+RISC-V configures DMA source, destination, length and control.
+DMA transfers image/weights into the CNN-accessible memory/data path.
+RISC-V starts CNN processing.
+CNN executes convolution → pooling → embedding generation.
+Generated embedding is stored in DMEM.
+RISC-V configures the distance/anomaly engine with query/reference addresses, count, metric and threshold.
+RISC-V starts the distance engine.
+Distance engine computes distances, selects minimum distance and performs threshold comparison.
+RISC-V receives SCORE_DONE_IRQ or polls status and reads the result.
+Result is reported through software/UART and optionally GPIO.
+5. Data Path
+The data path is separate from register control. Image and weight data are INT8. CNN processing produces a fixed-length embedding. The distance engine consumes the generated/query embedding and stored reference embeddings and produces the minimum distance and MATCH/ANOMALY decision.
+Stage
+Input
+Operation
+Output
+Input Buffer
+Input image INT8
+Buffer/format input samples
+Buffered image
+Convolution
+Image + CNN weights
+INT8 MAC / convolution
+Feature maps
+Pooling
+Feature maps
+Pooling
+Reduced feature maps
+Embedding Buffer
+Pooled features
+Pack/store fixed-length representation
+Generated embedding INT8
+Distance Input
+Query + reference embeddings
+Fetch vectors
+Vector pairs
+Distance Calculation
+Query/reference vectors
+Configured distance metric
+Distance per reference
+Minimum Distance
+Distances
+Select smallest
+Minimum distance
+Threshold Comparison
+Minimum distance + threshold
+Compare
+MATCH / ANOMALY
+5.1 DMEM Data Organization
+DMEM is 64 KB and stores the principal data objects. Exact offsets inside DMEM are implementation-defined unless fixed by the RTL team; the following logical regions are recommended.
+Logical region
+Contents
+Type
+Input Image
+Grayscale image samples
+INT8
+CNN Weights
+Convolution/filter weights
+INT8
+Reference Embeddings
+Previously stored embeddings
+INT8
+Generated/Query Embedding
+CNN output used by scoring engine
+INT8
+6. Register Map
+The following register offsets are proposed for implementation to make the specification complete. They are offsets within each IP's 4-KB region. If faculty-provided IP templates already define different offsets, preserve the provided offsets and update the RTL/software consistently.
+6.1 CNN Accelerator Registers — Base 0x2000_3000
+Offset
+Register
+R/W
+Description
+0x00
+CTRL
+R/W
+bit0 CNN_START; bit1 CNN_RESET; optional interrupt enable bit
+0x04
+STATUS
+R
+bit0 CNN_BUSY; bit1 CNN_DONE; bit2 CNN_ERROR
+0x08
+IMAGE_BASE_ADDR
+R/W
+DMEM/input image base address
+0x0C
+WEIGHT_BASE_ADDR
+R/W
+CNN weight base address
+0x10
+EMBED_BASE_ADDR
+R/W
+Generated embedding destination address
+0x14
+DIM_CFG
+R/W
+Image/channel/dimension configuration
+0x18
+EMBED_LEN
+R/W
+Embedding length, if required by implementation
+0x1C
+ERROR_CODE
+R
+CNN error/status code
+6.2 Distance/Anomaly Engine Registers — Base 0x2000_4000
+Offset
+Register
+R/W
+Description
+0x00
+CTRL
+R/W
+bit0 DIST_START; bit1 DIST_RESET; optional interrupt enable
+0x04
+STATUS
+R
+bit0 DIST_BUSY; bit1 DIST_DONE; bit2 DIST_ERROR
+0x08
+EMBED_BASE_ADDR
+R/W
+Query/generated embedding address
+0x0C
+REF_BASE_ADDR
+R/W
+Reference embedding base address
+0x10
+REF_COUNT
+R/W
+Number of reference embeddings
+0x14
+METRIC
+R/W
+Distance metric selection
+0x18
+THRESHOLD
+R/W
+Programmable anomaly threshold
+0x1C
+RESULT
+R
+MATCH/ANOMALY result and/or minimum-distance status
+0x20
+MIN_DISTANCE
+R
+Minimum calculated distance
+0x24
+ERROR_CODE
+R
+Distance-engine error/status code
+6.3 DMA Controller Registers — Base 0x2000_5000
+Offset
+Register
+R/W
+Description
+0x00
+CTRL
+R/W
+bit0 DMA_START; bit1 DMA_RESET; bit2 DMA_IRQ_EN
+0x04
+STATUS
+R
+bit0 DMA_BUSY; bit1 DMA_DONE; bit2 DMA_ERROR
+0x08
+SRC_ADDR
+R/W
+Source memory address
+0x0C
+DST_ADDR
+R/W
+Destination memory address
+0x10
+LENGTH
+R/W
+Transfer length in bytes
+0x14
+ERROR_CODE
+R
+DMA error/status code
+6.4 Standard Peripheral Regions
+Peripheral
+Base
+Size
+Register details
+IMEM
+0x0000_0000
+64 KB
+Faculty-provided memory interface
+DMEM
+0x1000_0000
+64 KB
+Faculty-provided memory interface
+UART
+0x2000_0000
+4 KB
+Use faculty-provided UART register definition
+Timer
+0x2000_1000
+4 KB
+Use faculty-provided Timer register definition
+GPIO
+0x2000_2000
+4 KB
+Use faculty-provided GPIO register definition
+7. Signal List
+Signal names below are logical project-level signals. Exact RTL port names shall follow the faculty-provided RISC-V/interconnect templates where applicable.
+Category
+Signal
+Dir.
+Width
+Purpose
+Clock/Reset
+clk
+I
+1
+System clock
+Clock/Reset
+rst
+I
+1
+Synchronous/asynchronous reset according to SoC convention
+Bus
+addr
+I
+32
+Memory-mapped address
+Bus
+write
+I
+1
+Write transaction indication
+Bus
+wdata
+I
+32
+Write data
+Bus
+wstrb
+I
+4
+Byte write enables
+Bus
+valid
+I
+1
+Request valid
+Bus
+ready
+O
+1
+Request accepted
+Bus
+rdata
+O
+32
+Read data
+Bus
+rvalid
+O
+1
+Read response valid
+Bus
+rready
+I
+1
+Read response accepted
+Bus
+error
+O
+1
+Transaction/error response
+Arbitration
+bus_req
+I
+1
+Master requests bus
+Arbitration
+bus_grant
+O
+1
+Arbiter grants bus
+CNN
+cnn_start
+I
+1
+Start CNN operation
+CNN
+cnn_busy
+O
+1
+CNN processing active
+CNN
+cnn_done
+O
+1
+CNN operation completed
+CNN
+cnn_error
+O
+1
+CNN error
+CNN
+accel_done_irq
+O
+1
+CNN completion interrupt
+Distance
+dist_start
+I
+1
+Start scoring
+Distance
+dist_busy
+O
+1
+Scoring active
+Distance
+dist_done
+O
+1
+Scoring completed
+Distance
+dist_error
+O
+1
+Distance-engine error
+Distance
+score_done_irq
+O
+1
+Scoring completion interrupt
+DMA
+dma_start
+I
+1
+Start DMA transfer
+DMA
+dma_busy
+O
+1
+DMA transfer active
+DMA
+dma_done
+O
+1
+DMA transfer completed
+DMA
+dma_error
+O
+1
+DMA error
+DMA
+dma_done_irq
+O
+1
+DMA completion interrupt
+DMA
+src_addr
+I
+32
+DMA source
+DMA
+dst_addr
+I
+32
+DMA destination
+DMA
+length
+I
+32
+DMA transfer length
+8. Interrupt Architecture
+Three project-specific completion interrupts are defined:
+Interrupt
+Source
+Destination
+When asserted
+CPU action
+ACCEL_DONE_IRQ
+CNN Accelerator
+RISC-V
+CNN embedding generation completes
+Read CNN status/result and proceed to scoring
+SCORE_DONE_IRQ
+Distance Engine
+RISC-V
+Distance and threshold decision completes
+Read minimum distance/result
+DMA_DONE_IRQ
+DMA Controller
+RISC-V
+Configured DMA transfer completes
+Check status and continue processing
+Interrupt behavior recommendation: generate a completion pulse or latch a pending bit until the CPU clears/acknowledges it. The exact interrupt-controller implementation is not defined in the source architecture and should follow the faculty-provided RISC-V/SoC environment.
+9. Error Handling
+Error
+Possible source
+Detection
+Required behavior
+Invalid address
+Interconnect
+Address decode miss
+Return bus ERROR; do not modify a slave
+Illegal register access
+CNN/Distance/DMA
+Unsupported offset or access type
+Set ERROR status; return error response
+Busy START
+Accelerators/DMA
+START written while BUSY=1
+Reject or ignore START; set error/status according to implementation policy
+Invalid dimension/config
+CNN
+DIM_CFG validation
+Set CNN_ERROR and ERROR_CODE
+Invalid reference count
+Distance Engine
+REF_COUNT validation
+Set DIST_ERROR
+Invalid metric
+Distance Engine
+METRIC validation
+Set DIST_ERROR
+DMA length/address error
+DMA
+Range/alignment validation
+Set DMA_ERROR and stop transfer
+DMA bus error
+DMA/interconnect
+Bus response
+Abort transfer and latch error
+Timeout/watchdog
+Any long-running IP
+Optional cycle counter
+Set error and return to idle
+9.1 Error Priority
+For each IP, ERROR should have priority over DONE for the same operation. Once an error is latched, BUSY shall clear and the IP shall return to an idle/error state until software resets or clears the error according to the implemented policy.
+10. Reset Behavior
+Reset places the RISC-V-visible control/status registers into known default values.
+CNN, Distance Engine and DMA enter IDLE with BUSY=0, DONE=0 and ERROR=0.
+Pending completion interrupts are cleared on reset.
+No DMA transfer shall be active after reset.
+Memory contents are not assumed to be initialized by accelerator reset unless explicitly implemented.
+Software must configure base addresses, dimensions, metric, reference count and threshold before starting processing.
+11. Operation / State Machines
+IP
+States
+Transition summary
+CNN
+IDLE → LOAD/WAIT → CONV → POOL → EMBED_WRITE → DONE/ERROR
+START launches operation; completion raises DONE/IRQ
+Distance Engine
+IDLE → LOAD_QUERY → LOAD_REF → DISTANCE → MIN_SELECT → THRESHOLD → DONE/ERROR
+Processes configured reference count
+DMA
+IDLE → ARBITRATE → READ → WRITE → COMPLETE/ERROR
+Transfers LENGTH bytes with address increment
+12. Detailed End-to-End Data Flow
+Input image, CNN weights and reference embeddings reside in DMEM or are placed there before accelerator execution.
+DMA may transfer the input image and CNN weights to the CNN input/data interface as configured.
+CNN reads the image/weights and executes INT8 convolution.
+Pooling reduces the feature representation.
+The embedding buffer stores the fixed-length generated embedding.
+Generated embedding is written to DMEM at EMBED_BASE_ADDR.
+Distance engine reads the generated/query embedding and reference embeddings.
+For each reference, the configured distance metric is calculated.
+The minimum distance is selected.
+Minimum distance is compared with THRESHOLD.
+The engine outputs MATCH or ANOMALY and asserts SCORE_DONE_IRQ.
+RISC-V reads the result and can report it through UART/GPIO.
+13. Software / Firmware Responsibilities
+Initialize memory/peripherals and clear accelerator status.
+Program CNN register set.
+Program DMA source/destination/length and start DMA where required.
+Wait for DMA completion using IRQ or polling.
+Start CNN and wait for ACCEL_DONE_IRQ or CNN_DONE polling.
+Program distance-engine query/reference addresses, reference count, metric and threshold.
+Start distance engine.
+Handle SCORE_DONE_IRQ or poll DIST_STATUS.
+Read RESULT and MIN_DISTANCE.
+Transmit final result through UART and/or drive GPIO.
+14. Verification Plan
+Test area
+Test
+Expected result
+Interconnect
+Read/write each mapped region
+Correct target selected
+Interconnect
+Access unmapped address
+ERROR response
+CNN
+Known image + weights
+Embedding matches Python/NumPy golden model within defined fixed-point behavior
+CNN
+Reset during idle
+Returns to clean IDLE
+DMA
+Known source/destination/length
+Destination equals source data
+DMA
+Invalid range/length
+DMA_ERROR
+Distance
+Known query/reference vectors
+Correct distance/minimum
+Threshold
+Distance below/above threshold
+Correct MATCH/ANOMALY
+Interrupts
+Complete each IP operation
+Exactly corresponding IRQ asserted
+Integration
+End-to-end image test
+Expected classification and no bus errors
+15. Kiro Implementation Requirements
+Kiro should use this document as the primary functional specification and follow these implementation rules:
+Do not change the top-level functional architecture without explicitly flagging the change.
+Implement the 32-bit memory-mapped system-bus abstraction and a 2-master × 8-slave address-decoding interconnect.
+Use the faculty-provided RISC-V core unchanged unless integration requires a documented adapter.
+Treat DMA as both a memory-mapped slave for CPU configuration and a secondary bus master for bulk transfers.
+Keep CNN datapath and Distance/Anomaly datapath modular and independently testable.
+Use INT8 data for image/weights/embeddings as specified.
+Keep control/status registers memory mapped.
+Implement DONE/ERROR latching and the three named interrupts.
+Preserve the memory-map base addresses and region sizes defined in Section 3.
+Add assertions for invalid addresses, illegal starts while BUSY, invalid configuration and DMA errors.
+Create self-checking testbenches and compare accelerator outputs against Python/NumPy golden-model results.
+Where this document marks a register detail as proposed, verify compatibility with faculty-provided templates before final RTL freeze.
+16. Applications
+Embedded image similarity checking.
+Visual anomaly detection for small grayscale images.
+Industrial inspection and defect screening.
+Low-power edge classification and similarity matching.
+Embedded sensor/image monitoring systems.
+Hardware-accelerated proof-of-concept for RISC-V edge-AI SoCs.
+17. Design Constraints and Assumptions
+The project targets a compact embedded image-processing workload suitable for a two-month academic implementation.
+Input/weights/embedding data are INT8.
+DMEM capacity is 64 KB.
+The CNN is lightweight; exact layer count, dimensions and embedding length must be selected so that the design fits the available memory/resources.
+Reference embeddings are stored in DMEM for the baseline implementation.
+The distance metric is programmable, but the exact supported metric set must be finalized in RTL; a simple integer metric is preferred for implementation simplicity.
+The threshold is programmable.
+Exact AXI signal-level adaptation is an implementation detail of the faculty-provided interconnect wrapper and must not alter the logical memory map.
+18. Final Implementation Checklist
+Item
+Status / requirement
+System architecture
+RISC-V + 32-bit memory-mapped bus + 3 project IPs + standard peripherals
+Masters
+2: RISC-V and DMA
+Slave regions
+8: IMEM, DMEM, UART, Timer, GPIO, CNN, Distance, DMA registers
+Memory map
+Defined in Section 3
+Control path
+Defined in Section 4
+Data path
+Defined in Section 5
+CNN registers
+Defined in Section 6.1
+Distance registers
+Defined in Section 6.2
+DMA registers
+Defined in Section 6.3
+Signal list
+Defined in Section 7
+Interrupts
+ACCEL_DONE_IRQ, SCORE_DONE_IRQ, DMA_DONE_IRQ
+Errors
+Defined in Section 9
+Reset
+Defined in Section 10
+Verification
+Python/NumPy golden model + RTL tests
+Interconnect generation
+python3 axi_interconnect_wrap.py -p 2 8
+19. Source Basis and Change Note
+The uploaded specification document establishes the project title, system purpose, three project-specific IP blocks, objectives, and the control/data-path diagrams. In particular, the source document states that the system provides memory-mapped access to peripherals, supports INT8 processing, DMA transfers, interrupt completion and Python/NumPy verification.
+The supplied page-3 architecture image labels the bus as a 'System Bus / Interconnect (AXI-Lite style, memory-mapped)' and page-4 labels it as 'SYSTEM BUS (32-bit Memory Mapped)'. For consistency with the current project decision, this specification uses '32-bit Memory-Mapped System Bus' as the conceptual architecture term. AXI terminology is retained only for the faculty-provided RTL interconnect-generation script.

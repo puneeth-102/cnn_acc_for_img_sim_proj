@@ -293,7 +293,7 @@ module cnn_top #(
 
                 WAIT_CONV: begin
                 
-                    if (!conv_busy) begin
+                    if (conv_done) begin
                 
                         state <= START_FC;
                 

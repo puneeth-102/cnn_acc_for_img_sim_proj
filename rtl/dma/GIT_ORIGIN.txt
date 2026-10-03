@@ -1,0 +1,13 @@
+IP Name: AXI DMA Controller
+Repository: https://github.com/aignacio/axi_dma
+Commit: e880401a5c35322525288985f9664b1eff9ec685
+Author: Anderson Ignacio <anderson@aignacio.com>
+Date:   Sun May 12 13:07:01 2024 +0100
+Subject: Added BW calcs on dma burst test
+
+Submodules:
+1. bus_arch_sv_pkg: https://github.com/aignacio/bus_arch_sv_pkg.git (commit 0e942f0c65bd669ddfc98d03bb3839de1b1da366)
+2. rggen-verilog-rtl: https://github.com/rggen/rggen-verilog-rtl.git (commit 2ac0648d0aa0414c525365123d143bc9908b7f19)
+
+Target Path: rtl/dma/ (alias: rtl/axi_dma/, root: axi_dma/)
+Testbench Path: tb/dma/

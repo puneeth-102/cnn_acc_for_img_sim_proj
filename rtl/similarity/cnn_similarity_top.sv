@@ -314,6 +314,8 @@ module cnn_similarity_top #(
                     if (memory_write_addr == 4'd15) begin
 
                         memory_write_addr <= 4'd0;
+                        busy              <= 1'b0;
+                        done              <= 1'b1;
 
                         state <= WAIT_QUERY;
 

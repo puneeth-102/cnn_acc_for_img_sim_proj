@@ -23,3 +23,15 @@
 .idea/
 Thumbs.db
 .DS_Store
+
+# VCS / Verdi / EDA Simulation generated files & directories
+csrc/
+AN.DB/
+simv*
+*.daidir/
+*.key
+*.fsdb
+*.vpd
+novas*
+build_*/
+run/uart/build/

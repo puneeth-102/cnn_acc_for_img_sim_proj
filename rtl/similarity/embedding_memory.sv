@@ -23,8 +23,6 @@ module embedding_memory #(
 
     logic signed [DATA_WIDTH-1:0] mem [0:DEPTH-1];
 
-    integer i;
-
     // --------------------------------------------------
     // Write
     // --------------------------------------------------
@@ -33,8 +31,8 @@ module embedding_memory #(
 
         if (rst) begin
 
-            for (i = 0; i < DEPTH; i = i + 1)
-                mem[i] <= '0;
+            for (int wr_i = 0; wr_i < DEPTH; wr_i = wr_i + 1)
+                mem[wr_i] <= '0;
 
         end
 
@@ -53,8 +51,8 @@ module embedding_memory #(
 
     always_comb begin
 
-        for (i = 0; i < DEPTH; i = i + 1)
-            reference_embedding[i] = mem[i];
+        for (int rd_i = 0; rd_i < DEPTH; rd_i = rd_i + 1)
+            reference_embedding[rd_i] = mem[rd_i];
 
     end
 

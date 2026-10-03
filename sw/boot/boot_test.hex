@@ -1,0 +1,9 @@
+// Sample RISC-V Reset Vector code in hex
+// 0x00: 00000013 (nop)
+00000013
+// 0x04: 00100093 (addi x1, x0, 1)
+00100093
+// 0x08: 00208133 (add x2, x1, x2)
+00208133
+// 0x0C: 00008067 (ret / jalr x0, x1, 0)
+00008067
