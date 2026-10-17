@@ -34,7 +34,6 @@ simv*
 *.vpd
 novas*
 build_*/
-run/uart/build/
 vc_hdrs.h
 verdiLog/
 *.elf

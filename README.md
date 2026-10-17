@@ -99,6 +99,14 @@ cnn_acc_for_img_sim_proj/
 │   └── soc/                               # SystemVerilog direct SoC integration testbenches
 │       └── tb_cnn_soc_axi_integration.sv  # 63-test SoC regression testbench
 │
+├── ip/                                    # Silicon-proven third-party IP cores
+│   ├── gpio/                              # PULP Platform 32-bit GPIO Controller
+│   └── timer/                             # lowRISC OpenTitan 64-bit RISC-V Timer
+│
+├── syn/                                   # Synthesis and FPGA project files
+│   └── vivado/
+│       └── cnn.xpr                        # Xilinx Vivado SoC project
+│
 ├── scripts/                               # Automation, Compilation, and Regression Scripts
 │   ├── compile_soc_top.sh                 # VCS elaboration & compilation script for cnn_soc_top
 │   ├── run_cpu_uart_sim.sh                # End-to-end firmware execution simulation

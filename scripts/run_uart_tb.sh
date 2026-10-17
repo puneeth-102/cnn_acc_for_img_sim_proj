@@ -16,7 +16,7 @@ export PATH=$VCS_HOME/bin:$PATH
 export SNPSLMD_LICENSE_FILE=27021@14.139.1.126
 
 # Output directories
-BUILD_DIR="${REPO_DIR}/run/uart/build"
+BUILD_DIR="${REPO_DIR}/build_uart"
 WAVES_DIR="${BUILD_DIR}/waves"
 SIMV_NAME="${BUILD_DIR}/simv_uart_tb"
 COMPILE_LOG="${BUILD_DIR}/compile_uart_tb.log"
