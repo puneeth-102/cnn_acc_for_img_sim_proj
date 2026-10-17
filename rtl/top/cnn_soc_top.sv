@@ -45,6 +45,7 @@ module cnn_soc_top (
     output logic        dist_irq_o,   // score_done_irq from distance_axi_wrapper
     output logic        timer_irq_o,  // timer_irq_o from timer_axi_wrapper
     output logic        gpio_irq_o,   // global_interrupt_o from gpio_axi_wrapper
+    output logic        dma_irq_o,    // dma_done_irq from dma_axi_wrapper
     input  logic [31:0] gpio_i,       // External GPIO inputs
     output logic [31:0] gpio_o,       // External GPIO outputs
     output logic [31:0] gpio_dir_o,   // External GPIO direction (1=output, 0=input)
@@ -327,33 +328,44 @@ logic               s00_axi_rlast;
 logic               s00_axi_rvalid;
 logic               s00_axi_rready;
 
-// Interconnect s01 (DMA master) — tied off; no external DMA master in this rev
-logic [IC_ID-1:0]   s01_axi_awid   = '0;
-logic [IC_ADDR-1:0] s01_axi_awaddr = '0;
-logic [7:0]         s01_axi_awlen  = '0;
-logic [2:0]         s01_axi_awsize = '0;
-logic [1:0]         s01_axi_awburst= '0;
-logic               s01_axi_awlock = 1'b0;
-logic [3:0]         s01_axi_awcache= '0;
-logic [2:0]         s01_axi_awprot = '0;
-logic [3:0]         s01_axi_awqos  = '0;
-logic               s01_axi_awvalid= 1'b0;
-logic [IC_DATA-1:0] s01_axi_wdata  = '0;
-logic [IC_STRB-1:0] s01_axi_wstrb  = '0;
-logic               s01_axi_wlast  = 1'b0;
-logic               s01_axi_wvalid = 1'b0;
-logic               s01_axi_bready = 1'b1;
-logic [IC_ID-1:0]   s01_axi_arid   = '0;
-logic [IC_ADDR-1:0] s01_axi_araddr = '0;
-logic [7:0]         s01_axi_arlen  = '0;
-logic [2:0]         s01_axi_arsize = '0;
-logic [1:0]         s01_axi_arburst= '0;
-logic               s01_axi_arlock = 1'b0;
-logic [3:0]         s01_axi_arcache= '0;
-logic [2:0]         s01_axi_arprot = '0;
-logic [3:0]         s01_axi_arqos  = '0;
-logic               s01_axi_arvalid= 1'b0;
-logic               s01_axi_rready = 1'b1;
+// Interconnect s01 (DMA master)
+logic [IC_ID-1:0]   s01_axi_awid;
+logic [IC_ADDR-1:0] s01_axi_awaddr;
+logic [7:0]         s01_axi_awlen;
+logic [2:0]         s01_axi_awsize;
+logic [1:0]         s01_axi_awburst;
+logic               s01_axi_awlock;
+logic [3:0]         s01_axi_awcache;
+logic [2:0]         s01_axi_awprot;
+logic [3:0]         s01_axi_awqos;
+logic               s01_axi_awvalid;
+logic               s01_axi_awready;
+logic [IC_DATA-1:0] s01_axi_wdata;
+logic [IC_STRB-1:0] s01_axi_wstrb;
+logic               s01_axi_wlast;
+logic               s01_axi_wvalid;
+logic               s01_axi_wready;
+logic [IC_ID-1:0]   s01_axi_bid;
+logic [1:0]         s01_axi_bresp;
+logic               s01_axi_bvalid;
+logic               s01_axi_bready;
+logic [IC_ID-1:0]   s01_axi_arid;
+logic [IC_ADDR-1:0] s01_axi_araddr;
+logic [7:0]         s01_axi_arlen;
+logic [2:0]         s01_axi_arsize;
+logic [1:0]         s01_axi_arburst;
+logic               s01_axi_arlock;
+logic [3:0]         s01_axi_arcache;
+logic [2:0]         s01_axi_arprot;
+logic [3:0]         s01_axi_arqos;
+logic               s01_axi_arvalid;
+logic               s01_axi_arready;
+logic [IC_ID-1:0]   s01_axi_rid;
+logic [IC_DATA-1:0] s01_axi_rdata;
+logic [1:0]         s01_axi_rresp;
+logic               s01_axi_rlast;
+logic               s01_axi_rvalid;
+logic               s01_axi_rready;
 
 // =============================================================================
 // ⑥  Interconnect master-side wires (m00..m07) — 32-bit, 8-bit IDs
@@ -539,14 +551,14 @@ logic [IC_ID-1:0]   m07_axi_rid;     logic [IC_DATA-1:0] m07_axi_rdata;
 logic [1:0]         m07_axi_rresp;   logic               m07_axi_rlast;
 logic               m07_axi_rvalid;  logic               m07_axi_rready;
 
-// IFU→IMEM direct path (32-bit after width adapter, 8-bit IDs)
+// IFU→IMEM direct path (64-bit direct to Port A, 8-bit IDs)
 logic [IC_ID-1:0]   ifu32_awid;    logic [IC_ADDR-1:0] ifu32_awaddr;
 logic [7:0]         ifu32_awlen;   logic [2:0]         ifu32_awsize;
 logic [1:0]         ifu32_awburst; logic               ifu32_awlock;
 logic [3:0]         ifu32_awcache; logic [2:0]         ifu32_awprot;
 logic [3:0]         ifu32_awqos;
 logic               ifu32_awvalid; logic               ifu32_awready;
-logic [IC_DATA-1:0] ifu32_wdata;   logic [IC_STRB-1:0] ifu32_wstrb;
+logic [63:0]        ifu32_wdata;   logic [7:0]         ifu32_wstrb;
 logic               ifu32_wlast;   logic               ifu32_wvalid;
 logic               ifu32_wready;
 logic [IC_ID-1:0]   ifu32_bid;     logic [1:0]         ifu32_bresp;
@@ -557,16 +569,17 @@ logic [1:0]         ifu32_arburst; logic               ifu32_arlock;
 logic [3:0]         ifu32_arcache; logic [2:0]         ifu32_arprot;
 logic [3:0]         ifu32_arqos;
 logic               ifu32_arvalid; logic               ifu32_arready;
-logic [IC_ID-1:0]   ifu32_rid;     logic [IC_DATA-1:0] ifu32_rdata;
+logic [IC_ID-1:0]   ifu32_rid;     logic [63:0]        ifu32_rdata;
 logic [1:0]         ifu32_rresp;   logic               ifu32_rlast;
 logic               ifu32_rvalid;  logic               ifu32_rready;
 
-// CNN, Distance, Timer, and GPIO IP internal signals
+// CNN, Distance, Timer, GPIO, and DMA IP internal signals
 logic signed [31:0] soc_cnn_embedding [0:15];
 logic               soc_cnn_irq;
 logic               soc_dist_irq;
 logic               soc_timer_irq;
 logic               soc_gpio_irq;
+logic               soc_dma_irq;
 logic [31:0]        soc_gpio_pin_irqs;
 logic [31:0]        soc_gpio_in_sync;
 
@@ -574,6 +587,7 @@ assign cnn_irq_o   = soc_cnn_irq;
 assign dist_irq_o  = soc_dist_irq;
 assign timer_irq_o = soc_timer_irq;
 assign gpio_irq_o  = soc_gpio_irq;
+assign dma_irq_o   = soc_dma_irq;
 
 // el2_mem_if instances (SRAM export / icache export)
 el2_mem_if #() el2_mem_export ();
@@ -729,7 +743,7 @@ el2_veer_wrapper #(
     // Interrupts
     .timer_int      (timer_int | soc_timer_irq),
     .soft_int       (soft_int),
-    .extintsrc_req  ({{(PIC_INTS-5){1'b0}}, soc_gpio_irq, soc_timer_irq, soc_dist_irq, soc_cnn_irq, uart_irq_o}),
+    .extintsrc_req  ({{(PIC_INTS-6){1'b0}}, soc_dma_irq, soc_gpio_irq, soc_timer_irq, soc_dist_irq, soc_cnn_irq, uart_irq_o}),
 
     // Performance counter outputs (unused)
     .dec_tlu_perfcnt0 (dec_tlu_perfcnt0),
@@ -889,7 +903,7 @@ assign ifu_axi_bid     = '0;
 assign ifu32_arid    = {{(IC_ID-IFU_BUS_TAG){1'b0}}, ifu_axi_arid};
 assign ifu32_araddr  = ifu_axi_araddr;
 assign ifu32_arlen   = ifu_axi_arlen;
-assign ifu32_arsize  = (ifu_axi_arsize == 3'b011) ? 3'b010 : ifu_axi_arsize;
+assign ifu32_arsize  = ifu_axi_arsize; // pass 64-bit size directly
 assign ifu32_arburst = ifu_axi_arburst;
 assign ifu32_arlock  = ifu_axi_arlock;
 assign ifu32_arcache = ifu_axi_arcache;
@@ -898,11 +912,11 @@ assign ifu32_arqos   = ifu_axi_arqos;
 assign ifu32_arvalid = ifu_axi_arvalid;
 assign ifu_axi_arready = ifu32_arready;
 
-// Read data: replicate 32→64 bits
+// Read data: pass true 64-bit data directly from 64-bit IMEM Port A
 assign ifu_axi_rvalid = ifu32_rvalid;
 assign ifu_axi_rresp  = ifu32_rresp;
 assign ifu_axi_rid    = ifu32_rid[IFU_BUS_TAG-1:0];
-assign ifu_axi_rdata  = {ifu32_rdata, ifu32_rdata};
+assign ifu_axi_rdata  = ifu32_rdata;
 assign ifu_axi_rlast  = ifu32_rlast;
 assign ifu32_rready   = ifu_axi_rready;
 
@@ -994,28 +1008,28 @@ axi_interconnect_wrap_2x8 #(
     .s00_axi_ruser   (),                .s00_axi_rvalid  (s00_axi_rvalid),
     .s00_axi_rready  (s00_axi_rready),
 
-    // ---- s01 : DMA master — tied off ----
+    // ---- s01 : DMA master ----
     .s01_axi_awid    (s01_axi_awid),    .s01_axi_awaddr  (s01_axi_awaddr),
     .s01_axi_awlen   (s01_axi_awlen),   .s01_axi_awsize  (s01_axi_awsize),
     .s01_axi_awburst (s01_axi_awburst), .s01_axi_awlock  (s01_axi_awlock),
     .s01_axi_awcache (s01_axi_awcache), .s01_axi_awprot  (s01_axi_awprot),
     .s01_axi_awqos   (s01_axi_awqos),   .s01_axi_awuser  (1'b0),
-    .s01_axi_awvalid (s01_axi_awvalid), .s01_axi_awready (),
+    .s01_axi_awvalid (s01_axi_awvalid), .s01_axi_awready (s01_axi_awready),
     .s01_axi_wdata   (s01_axi_wdata),   .s01_axi_wstrb   (s01_axi_wstrb),
     .s01_axi_wlast   (s01_axi_wlast),   .s01_axi_wuser   (1'b0),
-    .s01_axi_wvalid  (s01_axi_wvalid),  .s01_axi_wready  (),
-    .s01_axi_bid     (),                .s01_axi_bresp   (),
-    .s01_axi_buser   (),                .s01_axi_bvalid  (),
+    .s01_axi_wvalid  (s01_axi_wvalid),  .s01_axi_wready  (s01_axi_wready),
+    .s01_axi_bid     (s01_axi_bid),     .s01_axi_bresp   (s01_axi_bresp),
+    .s01_axi_buser   (),                .s01_axi_bvalid  (s01_axi_bvalid),
     .s01_axi_bready  (s01_axi_bready),
     .s01_axi_arid    (s01_axi_arid),    .s01_axi_araddr  (s01_axi_araddr),
     .s01_axi_arlen   (s01_axi_arlen),   .s01_axi_arsize  (s01_axi_arsize),
     .s01_axi_arburst (s01_axi_arburst), .s01_axi_arlock  (s01_axi_arlock),
     .s01_axi_arcache (s01_axi_arcache), .s01_axi_arprot  (s01_axi_arprot),
     .s01_axi_arqos   (s01_axi_arqos),   .s01_axi_aruser  (1'b0),
-    .s01_axi_arvalid (s01_axi_arvalid), .s01_axi_arready (),
-    .s01_axi_rid     (),                .s01_axi_rdata   (),
-    .s01_axi_rresp   (),                .s01_axi_rlast   (),
-    .s01_axi_ruser   (),                .s01_axi_rvalid  (),
+    .s01_axi_arvalid (s01_axi_arvalid), .s01_axi_arready (s01_axi_arready),
+    .s01_axi_rid     (s01_axi_rid),     .s01_axi_rdata   (s01_axi_rdata),
+    .s01_axi_rresp   (s01_axi_rresp),   .s01_axi_rlast   (s01_axi_rlast),
+    .s01_axi_ruser   (),                .s01_axi_rvalid  (s01_axi_rvalid),
     .s01_axi_rready  (s01_axi_rready),
 
     // ---- m00 : IMEM ----
@@ -1333,13 +1347,14 @@ cnn_axi_wrapper #(
 //    Replace with real RTL modules as they are developed.
 // =============================================================================
 
-// ---- Real Dual-Port IMEM (Port A: ifu32 direct IFU fetch, Port B: m00 interconnect LSU/DMA) ----
+// ---- Real Dual-Port IMEM (Port A: ifu32 direct IFU fetch 64-bit, Port B: m00 interconnect LSU/DMA 32-bit) ----
 imem_axi #(
-    .DATA_WIDTH (32),
-    .ADDR_WIDTH (32),
-    .ID_WIDTH_A (8),
-    .ID_WIDTH_B (8),
-    .MEM_SIZE   (65536)
+    .DATA_WIDTH_A (64),
+    .DATA_WIDTH_B (32),
+    .ADDR_WIDTH   (32),
+    .ID_WIDTH_A   (8),
+    .ID_WIDTH_B   (8),
+    .MEM_SIZE     (65536)
 ) u_imem (
     .clk            (clk),
     .rst_n          (rst_l),
@@ -1537,25 +1552,91 @@ distance_axi_wrapper #(
     .score_done_irq     (soc_dist_irq)
 );
 
-// ---- DMA register stub (m07) ----
-axi_slave_stub #(.DATA_WIDTH(32),.ADDR_WIDTH(32),.ID_WIDTH(8)) u_dma_regs (
-    .clk(clk), .rst_n(rst_l),
-    .s_axi_awid(m07_axi_awid),   .s_axi_awaddr(m07_axi_awaddr),
-    .s_axi_awlen(m07_axi_awlen), .s_axi_awsize(m07_axi_awsize),
-    .s_axi_awburst(m07_axi_awburst),.s_axi_awvalid(m07_axi_awvalid),
-    .s_axi_awready(m07_axi_awready),
-    .s_axi_wdata(m07_axi_wdata), .s_axi_wstrb(m07_axi_wstrb),
-    .s_axi_wlast(m07_axi_wlast), .s_axi_wvalid(m07_axi_wvalid),
-    .s_axi_wready(m07_axi_wready),
-    .s_axi_bid(m07_axi_bid),     .s_axi_bresp(m07_axi_bresp),
-    .s_axi_bvalid(m07_axi_bvalid),.s_axi_bready(m07_axi_bready),
-    .s_axi_arid(m07_axi_arid),   .s_axi_araddr(m07_axi_araddr),
-    .s_axi_arlen(m07_axi_arlen), .s_axi_arsize(m07_axi_arsize),
-    .s_axi_arburst(m07_axi_arburst),.s_axi_arvalid(m07_axi_arvalid),
-    .s_axi_arready(m07_axi_arready),
-    .s_axi_rid(m07_axi_rid),     .s_axi_rdata(m07_axi_rdata),
-    .s_axi_rresp(m07_axi_rresp), .s_axi_rlast(m07_axi_rlast),
-    .s_axi_rvalid(m07_axi_rvalid),.s_axi_rready(m07_axi_rready)
+// ---- AXI DMA Controller (m07 @ 0x2000_5000, master on s01) ----
+dma_axi_wrapper #(
+    .DATA_WIDTH (IC_DATA),
+    .ADDR_WIDTH (IC_ADDR),
+    .STRB_WIDTH (IC_STRB),
+    .ID_WIDTH   (IC_ID)
+) u_dma (
+    .clk            (clk),
+    .rst_n          (rst_l),
+
+    // AXI Slave Interface (CSR Configuration @ 0x2000_5000 via m07)
+    .s_axi_awid     (m07_axi_awid),
+    .s_axi_awaddr   (m07_axi_awaddr),
+    .s_axi_awlen    (m07_axi_awlen),
+    .s_axi_awsize   (m07_axi_awsize),
+    .s_axi_awburst  (m07_axi_awburst),
+    .s_axi_awvalid  (m07_axi_awvalid),
+    .s_axi_awready  (m07_axi_awready),
+    .s_axi_wdata    (m07_axi_wdata),
+    .s_axi_wstrb    (m07_axi_wstrb),
+    .s_axi_wlast    (m07_axi_wlast),
+    .s_axi_wvalid   (m07_axi_wvalid),
+    .s_axi_wready   (m07_axi_wready),
+    .s_axi_bid      (m07_axi_bid),
+    .s_axi_bresp    (m07_axi_bresp),
+    .s_axi_bvalid   (m07_axi_bvalid),
+    .s_axi_bready   (m07_axi_bready),
+    .s_axi_arid     (m07_axi_arid),
+    .s_axi_araddr   (m07_axi_araddr),
+    .s_axi_arlen    (m07_axi_arlen),
+    .s_axi_arsize   (m07_axi_arsize),
+    .s_axi_arburst  (m07_axi_arburst),
+    .s_axi_arvalid  (m07_axi_arvalid),
+    .s_axi_arready  (m07_axi_arready),
+    .s_axi_rid      (m07_axi_rid),
+    .s_axi_rdata    (m07_axi_rdata),
+    .s_axi_rresp    (m07_axi_rresp),
+    .s_axi_rlast    (m07_axi_rlast),
+    .s_axi_rvalid   (m07_axi_rvalid),
+    .s_axi_rready   (m07_axi_rready),
+
+    // AXI Master Interface (Bulk Transfers to Interconnect s01)
+    .m_axi_awid     (s01_axi_awid),
+    .m_axi_awaddr   (s01_axi_awaddr),
+    .m_axi_awlen    (s01_axi_awlen),
+    .m_axi_awsize   (s01_axi_awsize),
+    .m_axi_awburst  (s01_axi_awburst),
+    .m_axi_awlock   (s01_axi_awlock),
+    .m_axi_awcache  (s01_axi_awcache),
+    .m_axi_awprot   (s01_axi_awprot),
+    .m_axi_awqos    (s01_axi_awqos),
+    .m_axi_awvalid  (s01_axi_awvalid),
+    .m_axi_awready  (s01_axi_awready),
+    .m_axi_wdata    (s01_axi_wdata),
+    .m_axi_wstrb    (s01_axi_wstrb),
+    .m_axi_wlast    (s01_axi_wlast),
+    .m_axi_wvalid   (s01_axi_wvalid),
+    .m_axi_wready   (s01_axi_wready),
+    .m_axi_bid      (s01_axi_bid),
+    .m_axi_bresp    (s01_axi_bresp),
+    .m_axi_bvalid   (s01_axi_bvalid),
+    .m_axi_bready   (s01_axi_bready),
+    .m_axi_arid     (s01_axi_arid),
+    .m_axi_araddr   (s01_axi_araddr),
+    .m_axi_arlen    (s01_axi_arlen),
+    .m_axi_arsize   (s01_axi_arsize),
+    .m_axi_arburst  (s01_axi_arburst),
+    .m_axi_arlock   (s01_axi_arlock),
+    .m_axi_arcache  (s01_axi_arcache),
+    .m_axi_arprot   (s01_axi_arprot),
+    .m_axi_arqos    (s01_axi_arqos),
+    .m_axi_arvalid  (s01_axi_arvalid),
+    .m_axi_arready  (s01_axi_arready),
+    .m_axi_rid      (s01_axi_rid),
+    .m_axi_rdata    (s01_axi_rdata),
+    .m_axi_rresp    (s01_axi_rresp),
+    .m_axi_rlast    (s01_axi_rlast),
+    .m_axi_rvalid   (s01_axi_rvalid),
+    .m_axi_rready   (s01_axi_rready),
+
+    // Interrupt and Status
+    .dma_done_irq   (soc_dma_irq),
+    .dma_busy       (),
+    .dma_done       (),
+    .dma_error      ()
 );
 
 endmodule : cnn_soc_top

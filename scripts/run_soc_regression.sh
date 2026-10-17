@@ -69,6 +69,7 @@ vcs -full64 -sverilog -timescale=1ns/1ps +define+COMMON_CELLS_NO_DEPRECATED_WARN
   ip/gpio/src/gpio_input_stage_no_clk_gates.sv \
   ip/gpio/src/gpio.sv \
   rtl/wrappers/gpio_axi_wrapper.sv \
+  rtl/wrappers/dma_axi_wrapper.sv \
   rtl/mem/imem_axi.sv \
   rtl/mem/dmem_axi.sv \
   tb/soc/tb_cnn_soc_axi_integration.sv \

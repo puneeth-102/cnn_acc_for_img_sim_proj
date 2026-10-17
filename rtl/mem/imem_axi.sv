@@ -20,15 +20,18 @@
 `default_nettype none
 
 module imem_axi #(
-    parameter int DATA_WIDTH = 32,
-    parameter int ADDR_WIDTH = 32,
-    parameter int STRB_WIDTH = (DATA_WIDTH/8),
-    parameter int ID_WIDTH_A = 8,
-    parameter int ID_WIDTH_B = 8,
-    parameter int MEM_SIZE   = 65536,                 // 64 KB
-    parameter int MEM_DEPTH  = MEM_SIZE / STRB_WIDTH, // 16,384 words (32-bit)
-    parameter int ADDR_BITS  = 16,                    // 64 KB = 2^16
-    parameter string INIT_FILE = ""                   // Optional hex init file
+    parameter int DATA_WIDTH   = 32,
+    parameter int DATA_WIDTH_A = DATA_WIDTH,           // 32 by default, 64 when configured in SoC
+    parameter int DATA_WIDTH_B = DATA_WIDTH,
+    parameter int ADDR_WIDTH   = 32,
+    parameter int STRB_WIDTH_A = (DATA_WIDTH_A/8),
+    parameter int STRB_WIDTH_B = (DATA_WIDTH_B/8),
+    parameter int ID_WIDTH_A   = 8,
+    parameter int ID_WIDTH_B   = 8,
+    parameter int MEM_SIZE     = 65536,                 // 64 KB
+    parameter int MEM_DEPTH    = MEM_SIZE / 4,          // 16,384 words (32-bit)
+    parameter int ADDR_BITS    = 16,                    // 64 KB = 2^16
+    parameter string INIT_FILE = ""                     // Optional hex init file
 )(
     input  wire                     clk,
     input  wire                     rst_n,      // Active-low synchronous reset
@@ -46,8 +49,8 @@ module imem_axi #(
     output logic                    s_axi_a_awready,
 
     // Write Data Channel
-    input  wire [DATA_WIDTH-1:0]    s_axi_a_wdata,
-    input  wire [STRB_WIDTH-1:0]    s_axi_a_wstrb,
+    input  wire [DATA_WIDTH_A-1:0]  s_axi_a_wdata,
+    input  wire [STRB_WIDTH_A-1:0]  s_axi_a_wstrb,
     input  wire                     s_axi_a_wlast,
     input  wire                     s_axi_a_wvalid,
     output logic                    s_axi_a_wready,
@@ -69,7 +72,7 @@ module imem_axi #(
 
     // Read Data Channel
     output logic [ID_WIDTH_A-1:0]   s_axi_a_rid,
-    output logic [DATA_WIDTH-1:0]   s_axi_a_rdata,
+    output logic [DATA_WIDTH_A-1:0] s_axi_a_rdata,
     output logic [1:0]              s_axi_a_rresp,
     output logic                    s_axi_a_rlast,
     output logic                    s_axi_a_rvalid,
@@ -88,8 +91,8 @@ module imem_axi #(
     output logic                    s_axi_b_awready,
 
     // Write Data Channel
-    input  wire [DATA_WIDTH-1:0]    s_axi_b_wdata,
-    input  wire [STRB_WIDTH-1:0]    s_axi_b_wstrb,
+    input  wire [DATA_WIDTH_B-1:0]  s_axi_b_wdata,
+    input  wire [STRB_WIDTH_B-1:0]  s_axi_b_wstrb,
     input  wire                     s_axi_b_wlast,
     input  wire                     s_axi_b_wvalid,
     output logic                    s_axi_b_wready,
@@ -111,7 +114,7 @@ module imem_axi #(
 
     // Read Data Channel
     output logic [ID_WIDTH_B-1:0]   s_axi_b_rid,
-    output logic [DATA_WIDTH-1:0]   s_axi_b_rdata,
+    output logic [DATA_WIDTH_B-1:0] s_axi_b_rdata,
     output logic [1:0]              s_axi_b_rresp,
     output logic                    s_axi_b_rlast,
     output logic                    s_axi_b_rvalid,
@@ -248,7 +251,11 @@ module imem_axi #(
                     logic [ADDR_BITS-1:0] next_raddr_a;
                     next_raddr_a    = raddr_a_cur + (1 << arsize_a_reg);
                     raddr_a_cur     <= next_raddr_a;
-                    s_axi_a_rdata   <= mem[next_raddr_a[ADDR_BITS-1:2]];
+                    if (DATA_WIDTH_A == 64) begin
+                        s_axi_a_rdata <= {mem[{next_raddr_a[ADDR_BITS-1:3], 1'b1}], mem[{next_raddr_a[ADDR_BITS-1:3], 1'b0}]};
+                    end else begin
+                        s_axi_a_rdata <= mem[next_raddr_a[ADDR_BITS-1:2]];
+                    end
                     rbeat_a_cnt     <= rbeat_a_cnt + 8'd1;
                     s_axi_a_rlast   <= (rbeat_a_cnt + 8'd1 == arlen_a_reg);
                 end
@@ -266,7 +273,11 @@ module imem_axi #(
 
                 s_axi_a_rvalid  <= 1'b1;
                 s_axi_a_rid     <= s_axi_a_arid;
-                s_axi_a_rdata   <= mem[s_axi_a_araddr[ADDR_BITS-1:2]];
+                if (DATA_WIDTH_A == 64) begin
+                    s_axi_a_rdata <= {mem[{s_axi_a_araddr[ADDR_BITS-1:3], 1'b1}], mem[{s_axi_a_araddr[ADDR_BITS-1:3], 1'b0}]};
+                end else begin
+                    s_axi_a_rdata <= mem[s_axi_a_araddr[ADDR_BITS-1:2]];
+                end
                 s_axi_a_rresp   <= RESP_OKAY;
                 s_axi_a_rlast   <= (s_axi_a_arlen == 8'd0);
             end
@@ -422,10 +433,11 @@ module imem_axi #(
     always @(posedge clk) begin
         // Port A Write (if active)
         if (wr_en_a) begin
-            if (s_axi_a_wstrb[0]) mem[w_word_idx_a][7:0]   <= s_axi_a_wdata[7:0];
-            if (s_axi_a_wstrb[1]) mem[w_word_idx_a][15:8]  <= s_axi_a_wdata[15:8];
-            if (s_axi_a_wstrb[2]) mem[w_word_idx_a][23:16] <= s_axi_a_wdata[23:16];
-            if (s_axi_a_wstrb[3]) mem[w_word_idx_a][31:24] <= s_axi_a_wdata[31:24];
+            for (int b = 0; b < STRB_WIDTH_A; b = b + 1) begin
+                if (s_axi_a_wstrb[b]) begin
+                    mem[w_word_idx_a + (b/4)][(b%4)*8 +: 8] <= s_axi_a_wdata[b*8 +: 8];
+                end
+            end
         end
 
         // Port B Write (Port B takes priority in collision case)

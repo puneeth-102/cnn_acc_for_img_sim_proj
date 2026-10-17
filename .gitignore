@@ -35,3 +35,10 @@ simv*
 novas*
 build_*/
 run/uart/build/
+vc_hdrs.h
+verdiLog/
+*.elf
+*.bin
+*.o
+*.so
+*.a

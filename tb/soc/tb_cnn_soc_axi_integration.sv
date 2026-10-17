@@ -209,12 +209,29 @@ module tb_cnn_soc_axi_integration;
     wire [IDW-1:0] m07_rid;     wire [DW-1:0]  m07_rdata;  wire [1:0]     m07_rresp;
     wire           m07_rlast;   wire           m07_rvalid; wire           m07_rready;
 
+    // S01: DMA Master Interface Wires
+    wire [IDW-1:0] s01_awid;    wire [AW-1:0]  s01_awaddr; wire [7:0]     s01_awlen;
+    wire [2:0]     s01_awsize;  wire [1:0]     s01_awburst;wire           s01_awlock;
+    wire [3:0]     s01_awcache; wire [2:0]     s01_awprot; wire [3:0]     s01_awqos;
+    wire           s01_awvalid; wire           s01_awready;
+    wire [DW-1:0]  s01_wdata;   wire [SW-1:0]  s01_wstrb;  wire           s01_wlast;
+    wire           s01_wvalid;  wire           s01_wready;
+    wire [IDW-1:0] s01_bid;     wire [1:0]     s01_bresp;  wire           s01_bvalid;
+    wire           s01_bready;
+    wire [IDW-1:0] s01_arid;    wire [AW-1:0]  s01_araddr; wire [7:0]     s01_arlen;
+    wire [2:0]     s01_arsize;  wire [1:0]     s01_arburst;wire           s01_arlock;
+    wire [3:0]     s01_arcache; wire [2:0]     s01_arprot; wire [3:0]     s01_arqos;
+    wire           s01_arvalid; wire           s01_arready;
+    wire [IDW-1:0] s01_rid;     wire [DW-1:0]  s01_rdata;  wire [1:0]     s01_rresp;
+    wire           s01_rlast;   wire           s01_rvalid; wire           s01_rready;
+
     // Dedicated Peripheral Interrupts
     wire uart_irq_o;
     wire cnn_irq_o;
     wire dist_irq_o;
     wire timer_irq_o;
     wire gpio_irq_o;
+    wire dma_irq_o;
     wire [31:0] gpio_pin_irq_o;
     logic [31:0] gpio_i = '0;
     wire  [31:0] gpio_o;
@@ -260,29 +277,29 @@ module tb_cnn_soc_axi_integration;
         .s00_axi_ruser    (),            .s00_axi_rvalid   (s00_rvalid),
         .s00_axi_rready   (s00_rready),
 
-        // S01: DMA Master (tied off for this test)
-        .s01_axi_awid     ('0),   .s01_axi_awaddr   ('0),
-        .s01_axi_awlen    ('0),   .s01_axi_awsize   ('0),
-        .s01_axi_awburst  ('0),   .s01_axi_awlock   ('0),
-        .s01_axi_awcache  ('0),   .s01_axi_awprot   ('0),
-        .s01_axi_awqos    ('0),   .s01_axi_awuser   ('0),
-        .s01_axi_awvalid  (1'b0), .s01_axi_awready  (),
-        .s01_axi_wdata    ('0),   .s01_axi_wstrb    ('0),
-        .s01_axi_wlast    (1'b0), .s01_axi_wuser    ('0),
-        .s01_axi_wvalid   (1'b0), .s01_axi_wready   (),
-        .s01_axi_bid      (),     .s01_axi_bresp    (),
-        .s01_axi_buser    (),     .s01_axi_bvalid   (),
-        .s01_axi_bready   (1'b0),
-        .s01_axi_arid     ('0),   .s01_axi_araddr   ('0),
-        .s01_axi_arlen    ('0),   .s01_axi_arsize   ('0),
-        .s01_axi_arburst  ('0),   .s01_axi_arlock   ('0),
-        .s01_axi_arcache  ('0),   .s01_axi_arprot   ('0),
-        .s01_axi_arqos    ('0),   .s01_axi_aruser   ('0),
-        .s01_axi_arvalid  (1'b0), .s01_axi_arready  (),
-        .s01_axi_rid      (),     .s01_axi_rdata    (),
-        .s01_axi_rresp    (),     .s01_axi_rlast    (),
-        .s01_axi_ruser    (),     .s01_axi_rvalid   (),
-        .s01_axi_rready   (1'b0),
+        // S01: DMA Master
+        .s01_axi_awid     (s01_awid),    .s01_axi_awaddr   (s01_awaddr),
+        .s01_axi_awlen    (s01_awlen),   .s01_axi_awsize   (s01_awsize),
+        .s01_axi_awburst  (s01_awburst), .s01_axi_awlock   (s01_awlock),
+        .s01_axi_awcache  (s01_awcache), .s01_axi_awprot   (s01_awprot),
+        .s01_axi_awqos    (s01_awqos),   .s01_axi_awuser   (1'b0),
+        .s01_axi_awvalid  (s01_awvalid), .s01_axi_awready  (s01_awready),
+        .s01_axi_wdata    (s01_wdata),   .s01_axi_wstrb    (s01_wstrb),
+        .s01_axi_wlast    (s01_wlast),   .s01_axi_wuser    (1'b0),
+        .s01_axi_wvalid   (s01_wvalid),  .s01_axi_wready   (s01_wready),
+        .s01_axi_bid      (s01_bid),     .s01_axi_bresp    (s01_bresp),
+        .s01_axi_buser    (),            .s01_axi_bvalid   (s01_bvalid),
+        .s01_axi_bready   (s01_bready),
+        .s01_axi_arid     (s01_arid),    .s01_axi_araddr   (s01_araddr),
+        .s01_axi_arlen    (s01_arlen),   .s01_axi_arsize   (s01_arsize),
+        .s01_axi_arburst  (s01_arburst), .s01_axi_arlock   (s01_arlock),
+        .s01_axi_arcache  (s01_arcache), .s01_axi_arprot   (s01_arprot),
+        .s01_axi_arqos    (s01_arqos),   .s01_axi_aruser   (1'b0),
+        .s01_axi_arvalid  (s01_arvalid), .s01_axi_arready  (s01_arready),
+        .s01_axi_rid      (s01_rid),     .s01_axi_rdata    (s01_rdata),
+        .s01_axi_rresp    (s01_rresp),   .s01_axi_rlast    (s01_rlast),
+        .s01_axi_ruser    (),            .s01_axi_rvalid   (s01_rvalid),
+        .s01_axi_rready   (s01_rready),
 
         // M00 - M07
         .m00_axi_awid(m00_awid), .m00_axi_awaddr(m00_awaddr), .m00_axi_awlen(m00_awlen),
@@ -680,16 +697,89 @@ module tb_cnn_soc_axi_integration;
         .gpio_pin_irq_o         (gpio_pin_irq_o)
     );
 
-    axi_slave_stub #(.DATA_WIDTH(DW),.ADDR_WIDTH(AW),.ID_WIDTH(IDW)) u_dma_stub (
-        .clk(clk),.rst_n(rst_n),
-        .s_axi_awid(m07_awid),.s_axi_awaddr(m07_awaddr),.s_axi_awlen(m07_awlen),.s_axi_awsize(m07_awsize),
-        .s_axi_awburst(m07_awburst),.s_axi_awvalid(m07_awvalid),.s_axi_awready(m07_awready),
-        .s_axi_wdata(m07_wdata),.s_axi_wstrb(m07_wstrb),.s_axi_wlast(m07_wlast),.s_axi_wvalid(m07_wvalid),
-        .s_axi_wready(m07_wready),.s_axi_bid(m07_bid),.s_axi_bresp(m07_bresp),.s_axi_bvalid(m07_bvalid),
-        .s_axi_bready(m07_bready),.s_axi_arid(m07_arid),.s_axi_araddr(m07_araddr),.s_axi_arlen(m07_arlen),
-        .s_axi_arsize(m07_arsize),.s_axi_arburst(m07_arburst),.s_axi_arvalid(m07_arvalid),.s_axi_arready(m07_arready),
-        .s_axi_rid(m07_rid),.s_axi_rdata(m07_rdata),.s_axi_rresp(m07_rresp),.s_axi_rlast(m07_rlast),
-        .s_axi_rvalid(m07_rvalid),.s_axi_rready(m07_rready)
+    dma_axi_wrapper #(
+        .DATA_WIDTH (DW),
+        .ADDR_WIDTH (AW),
+        .STRB_WIDTH (SW),
+        .ID_WIDTH   (IDW)
+    ) u_dma (
+        .clk            (clk),
+        .rst_n          (rst_n),
+
+        // Slave Port (m07 @ 0x2000_5000)
+        .s_axi_awid     (m07_awid),
+        .s_axi_awaddr   (m07_awaddr),
+        .s_axi_awlen    (m07_awlen),
+        .s_axi_awsize   (m07_awsize),
+        .s_axi_awburst  (m07_awburst),
+        .s_axi_awvalid  (m07_awvalid),
+        .s_axi_awready  (m07_awready),
+        .s_axi_wdata    (m07_wdata),
+        .s_axi_wstrb    (m07_wstrb),
+        .s_axi_wlast    (m07_wlast),
+        .s_axi_wvalid   (m07_wvalid),
+        .s_axi_wready   (m07_wready),
+        .s_axi_bid      (m07_bid),
+        .s_axi_bresp    (m07_bresp),
+        .s_axi_bvalid   (m07_bvalid),
+        .s_axi_bready   (m07_bready),
+        .s_axi_arid     (m07_arid),
+        .s_axi_araddr   (m07_araddr),
+        .s_axi_arlen    (m07_arlen),
+        .s_axi_arsize   (m07_arsize),
+        .s_axi_arburst  (m07_arburst),
+        .s_axi_arvalid  (m07_arvalid),
+        .s_axi_arready  (m07_arready),
+        .s_axi_rid      (m07_rid),
+        .s_axi_rdata    (m07_rdata),
+        .s_axi_rresp    (m07_rresp),
+        .s_axi_rlast    (m07_rlast),
+        .s_axi_rvalid   (m07_rvalid),
+        .s_axi_rready   (m07_rready),
+
+        // Master Port (s01 to interconnect)
+        .m_axi_awid     (s01_awid),
+        .m_axi_awaddr   (s01_awaddr),
+        .m_axi_awlen    (s01_awlen),
+        .m_axi_awsize   (s01_awsize),
+        .m_axi_awburst  (s01_awburst),
+        .m_axi_awlock   (s01_awlock),
+        .m_axi_awcache  (s01_awcache),
+        .m_axi_awprot   (s01_awprot),
+        .m_axi_awqos    (s01_awqos),
+        .m_axi_awvalid  (s01_awvalid),
+        .m_axi_awready  (s01_awready),
+        .m_axi_wdata    (s01_wdata),
+        .m_axi_wstrb    (s01_wstrb),
+        .m_axi_wlast    (s01_wlast),
+        .m_axi_wvalid   (s01_wvalid),
+        .m_axi_wready   (s01_wready),
+        .m_axi_bid      (s01_bid),
+        .m_axi_bresp    (s01_bresp),
+        .m_axi_bvalid   (s01_bvalid),
+        .m_axi_bready   (s01_bready),
+        .m_axi_arid     (s01_arid),
+        .m_axi_araddr   (s01_araddr),
+        .m_axi_arlen    (s01_arlen),
+        .m_axi_arsize   (s01_arsize),
+        .m_axi_arburst  (s01_arburst),
+        .m_axi_arlock   (s01_arlock),
+        .m_axi_arcache  (s01_arcache),
+        .m_axi_arprot   (s01_arprot),
+        .m_axi_arqos    (s01_arqos),
+        .m_axi_arvalid  (s01_arvalid),
+        .m_axi_arready  (s01_arready),
+        .m_axi_rid      (s01_rid),
+        .m_axi_rdata    (s01_rdata),
+        .m_axi_rresp    (s01_rresp),
+        .m_axi_rlast    (s01_rlast),
+        .m_axi_rvalid   (s01_rvalid),
+        .m_axi_rready   (s01_rready),
+
+        .dma_done_irq   (dma_irq_o),
+        .dma_busy       (),
+        .dma_done       (),
+        .dma_error      ()
     );
 
     // =========================================================================
@@ -1038,6 +1128,41 @@ module tb_cnn_soc_axi_integration;
         check("DMEM write @ Top 0x1000_FFFC returns OKAY (2'b00)", resp == 2'b00);
         cpu_bus_read(32'h1000_FFFC, rdata, resp);
         check("DMEM read @ Top 0x1000_FFFC matches 0xFEEDFACE", resp == 2'b00 && rdata == 32'hFEED_FACE);
+
+        // --- TEST 10: CPU -> AXI -> DMA Integration (m07 @ 0x2000_5000) & S01 Master Transfer ---
+        $display("\n[TEST 10] CPU -> AXI -> DMA Controller Integration (m07 @ 0x2000_5000)");
+        // Write source data in DMEM @ 0x1000_0100
+        cpu_bus_write(32'h1000_0100, 32'hCAFE_BABE, 4'hF, resp);
+        check("Pre-seed DMEM source word @ 0x1000_0100", resp == 2'b00);
+        // Clear destination word in DMEM @ 0x1000_0200
+        cpu_bus_write(32'h1000_0200, 32'h0000_0000, 4'hF, resp);
+        check("Clear DMEM destination word @ 0x1000_0200", resp == 2'b00);
+
+        // Configure DMA via CSRs (m07)
+        cpu_bus_write(32'h2000_5008, 32'h1000_0100, 4'hF, resp); // SRC_ADDR
+        check("DMA SRC_ADDR write OKAY via interconnect", resp == 2'b00);
+        cpu_bus_write(32'h2000_500C, 32'h1000_0200, 4'hF, resp); // DST_ADDR
+        check("DMA DST_ADDR write OKAY via interconnect", resp == 2'b00);
+        cpu_bus_write(32'h2000_5010, 32'd4, 4'hF, resp);          // LENGTH = 4 bytes
+        check("DMA LENGTH write OKAY via interconnect", resp == 2'b00);
+
+        // Start DMA transfer with IRQ enabled (bit 0: START, bit 2: IRQ_EN -> 0x5)
+        cpu_bus_write(32'h2000_5000, 32'h0000_0005, 4'hF, resp);
+        check("DMA START command accepted via interconnect", resp == 2'b00);
+
+        // Wait for DMA completion interrupt
+        begin
+            int timeout = 0;
+            while (!dma_irq_o && timeout < 200) begin
+                @(posedge clk); timeout++;
+            end
+        end
+        check("Dedicated dma_irq_o interrupt pin asserted upon DMA completion", dma_irq_o == 1'b1);
+
+        // Read destination word from DMEM @ 0x1000_0200 to verify DMA transfer
+        cpu_bus_read(32'h1000_0200, rdata, resp);
+        check("DMA master (s01) moved data over interconnect: DMEM[0x1000_0200] == 0xCAFEBABE",
+              resp == 2'b00 && rdata == 32'hCAFE_BABE);
 
         // =====================================================================
         // Summary

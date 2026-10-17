@@ -71,6 +71,7 @@ vcs -full64 -sverilog -timescale=1ns/1ps +define+COMMON_CELLS_NO_DEPRECATED_WARN
   rtl/wrappers/gpio_axi_wrapper.sv \
   rtl/wrappers/cnn_axi_wrapper.sv \
   rtl/wrappers/distance_axi_wrapper.sv \
+  rtl/wrappers/dma_axi_wrapper.sv \
   rtl/mem/imem_axi.sv \
   rtl/mem/dmem_axi.sv \
   rtl/top/cnn_soc_top.sv \
