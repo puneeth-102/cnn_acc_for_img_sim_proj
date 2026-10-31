@@ -1,0 +1,10 @@
+clk,input,1
+rst_l,input,1
+uart_irq_o,output,1
+dma_irq_o,output,1
+cnn_irq_o,output,1
+dist_irq_o,output,1
+timer_irq_o,output,1
+gpio_irq_o,output,1
+timer_int,input,1
+soft_int,input,1

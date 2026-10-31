@@ -1,0 +1,6 @@
+jtag_tck,input,1
+jtag_trst_n,input,1
+jtag_tms,input,1
+jtag_tdi,input,1
+jtag_tdo,output,1
+jtag_tdoEn,output,1

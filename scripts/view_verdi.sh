@@ -21,5 +21,11 @@ if [ ! -f "${FSDB_FILE}" ]; then
     exit 1
 fi
 
-echo "Launching Synopsys Verdi with ${FSDB_FILE}..."
-verdi -ssf "${FSDB_FILE}" -simflow -dbdir build_soc/simv_soc_tb.daidir &
+RC_FILE="scripts/riscv_uart_wave.rc"
+RC_OPT=""
+if [ -f "${RC_FILE}" ]; then
+    RC_OPT="-sswr ${RC_FILE}"
+fi
+
+echo "Launching Synopsys Verdi with ${FSDB_FILE} ${RC_OPT}..."
+exec verdi -ssf "${FSDB_FILE}" -simflow -dbdir build_soc/simv_soc_tb.daidir ${RC_OPT} "$@"

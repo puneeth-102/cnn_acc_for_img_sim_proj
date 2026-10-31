@@ -1,0 +1,5 @@
+clk,input,1
+rst_l,input,1
+uart_rx_i,input,1
+uart_tx_o,output,1
+uart_irq_o,output,1

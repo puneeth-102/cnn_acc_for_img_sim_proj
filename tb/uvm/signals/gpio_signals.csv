@@ -1,0 +1,6 @@
+clk,input,1
+rst_l,input,1
+gpio_i,input,32
+gpio_o,output,32
+gpio_dir_o,output,32
+gpio_irq_o,output,1

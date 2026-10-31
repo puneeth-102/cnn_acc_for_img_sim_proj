@@ -1,0 +1,3 @@
+clk,input,1
+rst_l,input,1
+dbg_rst_l,input,1

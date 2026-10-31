@@ -17,10 +17,20 @@ export SNPSLMD_LICENSE_FILE=27021@14.139.1.126
 
 cd "${REPO_DIR}"
 
-echo "================================================================="
-echo "  Step 1: Building C Firmware for VeeR-EL2 CPU"
-echo "================================================================="
-./sw/hello_uart/build.sh
+HEX_TARGET="${1:-sw/hello_uart/boot.hex}"
+shift || true
+
+if [[ "${HEX_TARGET}" == *"riscv_test"* ]]; then
+  echo "================================================================="
+  echo "  Step 1: Building C Firmware (sw/riscv_test/simple_test.c)"
+  echo "================================================================="
+  ./sw/riscv_test/build.sh
+else
+  echo "================================================================="
+  echo "  Step 1: Building C Firmware for VeeR-EL2 CPU"
+  echo "================================================================="
+  ./sw/hello_uart/build.sh
+fi
 
 mkdir -p build_soc
 
@@ -89,6 +99,6 @@ echo "================================================================="
 echo "  Step 3: Executing CPU -> AXI UART Simulation (with FSDB dump)"
 echo "================================================================="
 
-./build_soc/simv_soc_tb +hex=sw/hello_uart/boot.hex +fsdb "$@" -l build_soc/sim_tb.log
+./build_soc/simv_soc_tb +hex="${HEX_TARGET}" +fsdb "$@" -l build_soc/sim_tb.log
 
 

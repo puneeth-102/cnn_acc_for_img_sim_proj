@@ -212,6 +212,16 @@ module tb_cnn_soc_top;
                     $display("  Final GPIO_OUT state      : 0x%08X (Expected: 0x00000055)", gpio_o);
                     $display("=================================================================");
                     $finish(0);
+                end else if ((gpio_o == 32'h00000025 && rx_byte == 8'h0A) ||
+                             (char_count >= 11 && rx_byte == 8'h0A &&
+                              received_banner.substr(received_banner.len() >= 13 ? received_banner.len()-13 : 0, received_banner.len()-1) == "Result = 25\r\n")) begin
+                    #(BIT_PERIOD_NS * 10); // small padding
+                    $display("\n=================================================================");
+                    $display("  [TESTBENCH SUCCESS] RISC-V CPU TO UART ARITHMETIC TEST PASSED!");
+                    $display("  Total characters received : %0d", char_count);
+                    $display("  Final GPIO_OUT state      : 0x%08X (Expected: 0x00000025)", gpio_o);
+                    $display("=================================================================");
+                    $finish(0);
                 end
             end else begin
                 $display("\n[TB WARNING] UART Framing Error detected (stop bit was low, byte=0x%02X) at %0t!", rx_byte, $time);
