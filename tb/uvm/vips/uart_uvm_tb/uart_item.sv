@@ -4,6 +4,7 @@ class uart_item extends uvm_sequence_item;
   rand bit uart_rx_i;
   bit uart_tx_o;
   bit uart_irq_o;
+  byte char_data;
 
   `uvm_object_utils(uart_item)
 

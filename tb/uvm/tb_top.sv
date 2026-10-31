@@ -14,10 +14,10 @@ import soc_uvm_pkg::*;
 module tb_top;
 
     // -------------------------------------------------------------------------
-    // 1. Root Master Clock Generation (50 MHz, Period = 20 ns)
+    // 1. Root Master Clock Generation (100 MHz, Period = 10 ns)
     // -------------------------------------------------------------------------
     logic root_clk = 0;
-    always #10 root_clk = ~root_clk;
+    always #5 root_clk = ~root_clk;
 
     // -------------------------------------------------------------------------
     // 2. Instantiate the 5 External VIP Interfaces

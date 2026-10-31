@@ -24,8 +24,19 @@ class soc_base_test extends uvm_test;
         phase.raise_objection(this);
         `uvm_info("SOC_TEST", "=== Starting VeeR-EL2 SoC UVM Base Test ===", UVM_LOW)
 
-        // Wait for execution or timeout
-        #50us;
+        // Wait dynamically for scoreboard pass detection or timeout
+        fork
+            begin
+                wait(env.sb.pass_detected == 1'b1);
+                #5us; // Allow any trailing UART stop bits or newline to flush
+                `uvm_info("SOC_TEST", "=== PASS Condition Confirmed by Scoreboard! ===", UVM_LOW)
+            end
+            begin
+                #60us;
+                `uvm_info("SOC_TEST", "=== 60us Watchdog Timeout Reached ===", UVM_LOW)
+            end
+        join_any
+        disable fork;
 
         `uvm_info("SOC_TEST", "=== Completed VeeR-EL2 SoC UVM Base Test ===", UVM_LOW)
         phase.drop_objection(this);
