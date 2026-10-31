@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="Header">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#000000"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#000000"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#000000"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#000000"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#FFFFFF" ss:Bold="1"/>
+   <Interior ss:Color="#1B365D" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="DataCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="SignalCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Consolas" ss:Size="10" ss:Color="#0A2540" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="InternalCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#0F5132" ss:Bold="1"/>
+   <Interior ss:Color="#D1E7DD" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="ExternalCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#842029" ss:Bold="1"/>
+   <Interior ss:Color="#F8D7DA" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+
+ <!-- SHEET 1: EXTERNAL INTERFACES -->
+ <Worksheet ss:Name="External Interfaces">
+  <Table ss:ExpandedColumnCount="7" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="20">
+   <Column ss:Width="130"/>
+   <Column ss:Width="140"/>
+   <Column ss:Width="70"/>
+   <Column ss:Width="60"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="360"/>
+   <Row ss:Height="28">
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Interface Group</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Signal / Pin Name</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Direction</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Width</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Connected Internal Block</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Protocol / Standard</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">What / How We Are Using It</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Clock &amp; Reset</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">clk</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Global SoC Clock Tree</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">100 MHz CMOS Clock</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Primary 100 MHz clock driving CPU, AXI crossbar, DMA, CNN, Distance, and peripherals.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Clock &amp; Reset</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">rst_l</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Reset Controller</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-Low Reset</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Main chip reset. When 0, resets CPU pipeline, bus arbiters, and registers to defaults.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Clock &amp; Reset</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">dbg_rst_l</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Debug Subsystem</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-Low Reset</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Resets the on-chip RISC-V debug module and JTAG TAP without resetting the CPU.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">UART Serial Console</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">uart_tx_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">axi_uart_top (M02)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">RS-232 UART (8N1)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Serial wire sending text to screen (prints 26 boot, inference, and test pass lines).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">UART Serial Console</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">uart_rx_i</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">axi_uart_top (M02)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">RS-232 UART (8N1)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Serial wire receiving commands or image data from external PC into UART RX FIFO.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">PULP 32-bit GPIO</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_o[31:0]</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">32-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Parallel Digital CMOS</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Physical output pins showing progress: 0x01 (boot), 0x02 (DMA done), 0x04 (CNN done), 0x55 (all pass).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">PULP 32-bit GPIO</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_i[31:0]</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">32-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Parallel Digital CMOS</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Physical inputs for buttons/sensors; passed through on-chip 2-stage synchronizer.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">PULP 32-bit GPIO</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_dir_o[31:0]</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">32-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Pad Enable Strobe</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Controls external bi-directional chip pad drivers (1=output drive, 0=high-Z input).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Interrupt Output Pins</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">dma_irq_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">dma_axi_wrapper (M07)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External pin pulses high when DMA block transfer (256-byte image) finishes.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Interrupt Output Pins</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">cnn_irq_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">cnn_axi_wrapper (M05)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External pin pulses high when CNN feature extraction inference finishes.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Interrupt Output Pins</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">dist_irq_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">distance_axi_wrapper (M06)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External pin pulses high when Manhattan distance scoring and threshold comparison finish.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Interrupt Output Pins</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">uart_irq_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">axi_uart_top (M02)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External pin asserts high when UART TX FIFO is empty or RX byte arrives.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Interrupt Output Pins</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">timer_irq_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">timer_axi_wrapper (M03)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External pin asserts high when 64-bit timer reaches compare target (MTIME &gt;= MTIMECMP).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Interrupt Output Pins</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_irq_o</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External pin pulses high when an enabled GPIO input pin detects edge/level transition.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Core Interrupt Inputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">timer_int</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU PIC Controller</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External machine timer interrupt input line wired into the VeeR-EL2 CPU.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Core Interrupt Inputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">soft_int</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU PIC Controller</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External software / inter-processor interrupt line wired into the VeeR-EL2 CPU.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tck</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug TAP</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Clock</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG test clock for OpenOCD/GDB on-chip debugger access.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tms</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug TAP</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Control</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG test mode select line driving state transitions of the 16-state TAP.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tdi</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug TAP</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Data In</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG serial data input carrying CPU debug instructions and register read/write commands.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_trst_n</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug TAP</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-Low Reset</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG asynchronous reset pin to force TAP controller into Test-Logic-Reset state.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tdo</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug TAP</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Data Out</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG serial data output returning CPU registers, program counter, and memory values.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tdoEn</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug TAP</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Pad Driver Enable</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Enables the external TDO pad driver buffer only when shifting data out.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">i_cpu_halt_req</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Power Management</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Control</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External hardware signal to request CPU to pause instruction fetch and halt.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_cpu_halt_ack</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Power Management</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Acknowledge</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU output signal confirming that the core has safely halted.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_cpu_halt_status</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Power Management</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Status Flag</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Continuous status output flag indicating whether the CPU core is currently halted.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">i_cpu_run_req</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Power Management</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Control</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External hardware signal to resume execution of a halted CPU core.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_cpu_run_ack</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Power Management</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Acknowledge</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU output signal confirming that the core has resumed active instruction execution.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_debug_mode_status</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">CPU Power Management</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Status Flag</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Status output signal indicating whether the CPU is halted in JTAG hardware debug mode.</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+
+ <!-- SHEET 2: VERIFICATION TEST PLAN -->
+ <Worksheet ss:Name="Verification Test Plan">
+  <Table ss:ExpandedColumnCount="5" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="20">
+   <Column ss:Width="180"/>
+   <Column ss:Width="280"/>
+   <Column ss:Width="270"/>
+   <Column ss:Width="270"/>
+   <Column ss:Width="200"/>
+   <Row ss:Height="28">
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Test Name</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Description</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">C Part</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">SV Part</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Internal or External</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_REG_RW_RESET</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check reset defaults (0x0) and read/write access to DMA registers (CTRL, STATUS, SRC_ADDR, DST_ADDR, LENGTH).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes base addresses and lengths; reads back registers to verify setup.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Issues AXI-Lite read/write cycles; checks register flip-flops and OKAY responses.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip registers &amp; AXI-Lite bus)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_MEM2MEM_16B</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check 16-byte (4-word) memory-to-memory copy between DMEM source and destination.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Sets DMA_SRC_ADDR, DMA_DST_ADDR, DMA_LENGTH=16, triggers START, and polls STATUS.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors DMA master read/write bursts on internal bus; checks destination equals source byte-for-byte.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip DMEM &amp; internal AXI master bus)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_IMAGE_BURST_256B</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check 256-byte bulk transfer of 16x16 INT8 image from DMEM to CNN SRAM buffer (0x2000_3100).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Sets SRC=&amp;test_image, DST=0x20003100, LENGTH=256, START=1; verifies completion status.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors burst writes; verifies all 256 bytes are loaded into CNN SRAM buffer without stall.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip DMEM to on-chip CNN SRAM buffer)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_PARTIAL_ODD_LEN</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check transfer of 13 bytes (3 full 32-bit words + 1 byte) with byte strobes.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Configures DMA_LENGTH=13; checks destination buffer after completion.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts words 0-2 write with wstrb=4'hF and word 3 with wstrb=4'h1; checks other bytes untouched.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal byte strobe generator &amp; masking)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_IRQ_ASSERTION</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check that dedicated interrupt pin dma_irq_o pulses high when transfer completes.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Enables interrupt bit in CTRL (IRQ_EN=1); services interrupt or waits for completion flag.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors physical dma_irq_o pin on chip boundary; checks pin rises from 0 to 1 upon completion.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical dma_irq_o output pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_W1C_CLEAR</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check Write-1-to-Clear (W1C) clears status flags and drops dma_irq_o back to 0.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes '1' to STATUS.DONE bit after transfer completes to acknowledge interrupt.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes dma_irq_o pin and STATUS register; verifies pin drops from 1 to 0 immediately on W1C write.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Deasserts physical dma_irq_o pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_ERR_ALIGN_FAULT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Fault injection: Program unaligned source address (0x1000_0003) and verify error latching.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Configures unaligned address; checks STATUS register for error code.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies DMA FSM latches STATUS.ERROR=1 with ERROR_CODE=1 and blocks bus master requests.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal address check &amp; error register)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_ERR_ZERO_LEN</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Fault injection: Program LENGTH=0 and verify transfer rejection.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Configures LENGTH=0, START=1; reads back error status.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies DMA aborts transfer without issuing bus transactions; asserts ERROR_CODE=1.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal parameter validator)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_ERR_BUSY_CONFLICT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Fault injection: Write START=1 while DMA is already busy running a transfer.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes START=1 twice consecutively without waiting for completion.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies ongoing transfer finishes safely; second command is dropped with ERROR_CODE=4.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal FSM collision protection logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMA_SOFT_RESET</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check soft reset recovery during an active bulk transfer.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Sets CTRL.SOFT_RESET=1 while transfer is running.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies FSM immediately halts, cancels master requests, and resets internal counters to IDLE.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal reset tree &amp; FSM clear)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_MAC_UNIT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check 8-bit signed multiplication and 32-bit accumulation datapath with synchronous clear.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">N/A (Submodule hardware testbench).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Drives signed INT8 pixel and weight inputs; checks product accumulation and clear_acc reset.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip multiplier &amp; accumulator ALU)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_CONV3X3_LAYER</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check 3x3 2D convolution on 16x16 image with 4 parallel filters (produces 784 activations).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">N/A (Submodule hardware testbench).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Feeds test image and filter weights; compares all 784 output features against Python golden model.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip sliding window buffers &amp; MAC array)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_RELU_LAYER</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check element-wise Rectified Linear Unit activation (clamping negative numbers to 0).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">N/A (Submodule hardware testbench).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Drives signed positive and negative values; verifies negative values clamp to 0 and positive values pass.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip activation datapath logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_MAXPOOL2X2_LAYER</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check 2x2 max pooling with stride 2 across 784 inputs (reduces to 196 features).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">N/A (Submodule hardware testbench).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Applies 14x14 feature maps per filter; verifies non-overlapping 2x2 max selection into 196 outputs.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip spatial comparator tree)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_FC196_16_LAYER</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check Fully Connected matrix multiplication (196 inputs x 16 neurons) with bias addition.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">N/A (Submodule hardware testbench).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Applies 196 features and 16x196 weights; checks that output 16-D embedding matches golden dot products.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip matrix multiplier &amp; accumulator)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_IMAGE_BUFFER_SRAM</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check direct AXI writes and reads to the CNN 256-byte image SRAM buffer (0x2000_3100 - 0x2000_31FC).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes known pixel array into buffer address 0x2000_3100; reads back data to verify SRAM integrity.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors AXI writes to buffer range; checks SRAM memory array contents match written pixels.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip local SRAM image buffer)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_INFERENCE_EXEC</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check complete CNN inference trigger, busy polling, and 16-element embedding vector generation.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Sets DIM_CFG=16x16, EMBED_LEN=16, triggers START=1, polls STATUS.DONE, and reads embedding registers (0x20-0x5C).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors CNN AXI slave transactions; verifies pipeline execution cycles; checks embedding values are non-zero.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip accelerator pipeline &amp; registers)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_IRQ_ASSERTION</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check assertion of dedicated completion interrupt pin cnn_irq_o when inference finishes.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Configures CNN_CTRL with IRQ_EN=1; waits for hardware completion.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes physical cnn_irq_o output pin; checks pin asserts high when STATUS.DONE=1.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical cnn_irq_o output pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">CNN_INVALID_CFG_FAULT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Fault injection: Program invalid image dimensions or embedding length and check error handling.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes illegal dimension value to DIM_CFG; reads STATUS register.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies CNN detects illegal configuration, asserts STATUS.ERROR=1 with ERROR_CODE=3, and aborts start.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal configuration checker)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DIST_MANHATTAN_CALC</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check hardware calculation of Manhattan (L1) distance: sum(|query[i] - ref[i]|) for 16 elements.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Loads query and reference vectors into IP slots; triggers calculation.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Compares hardware computed distance in MIN_DISTANCE register against software reference calculation.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip absolute difference subtractor &amp; adder)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DIST_THRESHOLD_MATCH</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check classification when distance &lt;= threshold (Expected: RESULT=1 for MATCH / NORMAL).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Sets matching reference vector, sets threshold=50, starts engine, verifies RESULT==1 and MIN_DISTANCE==0.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors Distance AXI registers; checks comparator asserts RESULT=1 when distance &lt;= threshold.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip distance registers &amp; comparator logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DIST_THRESHOLD_ANOMALY</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check classification when distance &gt; threshold (Expected: RESULT=0 for ANOMALY).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Sets divergent reference vector, sets threshold=50, starts engine, verifies RESULT==0 and MIN_DISTANCE==800.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors Distance AXI registers; checks comparator asserts RESULT=0 when distance &gt; threshold.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip distance registers &amp; comparator logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DIST_IRQ_ASSERTION</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check assertion of dedicated completion interrupt pin dist_irq_o when distance scoring finishes.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Configures DIST_CTRL with IRQ_EN=1; triggers scoring; clears interrupt via W1C.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes physical dist_irq_o output pin; verifies pin rises to 1 on completion and drops to 0 on W1C.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical dist_irq_o output pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DIST_INVALID_METRIC_FAULT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Fault injection: Program unsupported metric index into DIST_METRIC and verify error response.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes unsupported metric code (e.g. 5) into DIST_METRIC register.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies IP rejects configuration, asserts STATUS.ERROR=1 with ERROR_CODE=4, and refuses execution.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (Internal metric validator logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">UART_BAUD_DIV_CONFIG</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check programming of UART baud rate divisor latch (divisor = 16) and line control register (8N1).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes LCR=0x80 (DLAB enable), writes BAUD_DIV=16, restores LCR=0x03 (8 data bits, 1 stop bit, no parity).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors internal AXI writes to UART registers 0x2000_0008 and 0x2000_000C; verifies divisor latch value.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip UART registers &amp; clock divider)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">UART_SERIAL_TX_BITSTREAM</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check physical serial transmission of ASCII characters over uart_tx_o pin at exact baud timing.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Calls uart_putc() / uart_puts() to transmit string messages to console.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes physical uart_tx_o output wire; deserializes start bit, 8 data bits, and stop bit at 170 ns/bit; validates text.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical uart_tx_o serial output pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">UART_TX_FIFO_STATUS</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check UART Line Status Register (LSR) transmitter holding register empty (THRE) and transmitter empty (TEMT).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Polls LSR register until THRE bit is 1 before writing next character into THR.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors AXI reads to LSR (0x2000_0014); checks THRE drops to 0 when FIFO is written and returns to 1 when empty.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip UART FIFO status logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">UART_IRQ_ASSERTION</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check assertion of uart_irq_o pin when TX FIFO is empty or RX data is received.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Enables UART interrupts via IER register; handles interrupt or polls status.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes physical uart_irq_o output pin; checks pin asserts upon configured UART trigger condition.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical uart_irq_o output pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">TIMER_COUNTER_INCREMENT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check continuous 64-bit real-time counter (MTIME) incrementation based on system clock.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Reads MTIME counter registers twice and verifies time progression.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors internal 64-bit timer counter registers; verifies increment rate matches prescaler setting.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip 64-bit timer counter flip-flops)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">TIMER_MATCH_INTERRUPT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check assertion of timer_irq_o pin when MTIME counter reaches comparator value (MTIME &gt;= MTIMECMP).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Programs MTIMECMP = MTIME + 100; enables timer interrupt; waits for interrupt.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes physical timer_irq_o output pin; verifies pin rises to 1 exactly when counter matches compare register.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical timer_irq_o output pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">GPIO_DIRECTION_CONTROL</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check 32-bit pin direction configuration via GPIO_EN register (input vs push-pull output).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes direction mask to GPIO_EN (0x2000_2080); verifies output enables.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes internal direction control bus gpio_dir_o[31:0]; checks pins configure correctly as inputs or outputs.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip direction registers &amp; pad control)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">GPIO_OUTPUT_PATTERN_DRIVE</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check driving arbitrary test patterns and stage indicators onto physical gpio_o[31:0] pins.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes progress status to GPIO_OUT: 0x01 (boot), 0x02 (DMA done), 0x04 (CNN done), 0x55 (all pass).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Probes physical gpio_o[31:0] output pins on chip boundary; asserts pin levels match written values.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical gpio_o[31:0] output pin bus)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">GPIO_ATOMIC_SET_CLR_TOGGLE</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check atomic bit manipulation registers: GPIO_SET (0x200), GPIO_CLEAR (0x280), and GPIO_TOGGLE (0x300).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes single bitmasks to SET, CLEAR, and TOGGLE registers without read-modify-write software overhead.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors AXI writes to atomic offsets; asserts that target bits on gpio_o update while other bits remain unchanged.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Directly changes physical gpio_o output pins)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">GPIO_INPUT_SAMPLING_SYNC</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check external signal sampling on physical gpio_i[31:0] pins through 2-stage flip-flop synchronizer.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Reads GPIO_IN register (0x2000_2000) to inspect external switch/pin states.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Drives asynchronous digital signals onto physical gpio_i pins; checks 2-stage synchronizer removes metastability.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical gpio_i[31:0] input pins)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">GPIO_PIN_INTERRUPT_GEN</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check generation of gpio_irq_o pin on configurable rising-edge, falling-edge, or level triggers on input pins.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Enables GPIO interrupt mask; reads interrupt status; clears interrupt via W1C.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Drives pulse transitions on gpio_i; probes physical gpio_irq_o pin; verifies interrupt asserts and clears cleanly.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical gpio_i pin transition -&gt; gpio_irq_o pin)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">AXI_SLAVE_ADDR_DECODING</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check address decoding and routing from CPU master (S00) to all 8 slave peripheral targets (M00-M07).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Issues read/write accesses to all 8 base addresses: IMEM, DMEM, UART, Timer, GPIO, CNN, Distance, and DMA.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors select lines and handshakes on all 8 slave interfaces (m00_axi through m07_axi); verifies 1-to-1 routing.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip AXI crossbar decoder &amp; muxes)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">AXI_UNMAPPED_DECERR</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check generation of DECERR (2'b11) response when accessing unmapped address space (e.g. 0x3000_0000).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Attempts read or write access to unmapped memory address.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Captures write response bresp and read response rresp; asserts interconnect returns 2'b11 without bus hang.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip crossbar default error slave logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">AXI_MASTER_ARBITRATION</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check round-robin bus arbitration when CPU (S00) and DMA (S01) issue concurrent accesses to shared DMEM (M01).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Initiates DMA background transfer to DMEM while CPU actively reads instructions and data.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Monitors simultaneous request lines; verifies round-robin arbiter grants alternating access without starving either master.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip crossbar arbiter logic &amp; grant handshakes)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">AXI_BACKPRESSURE_HANDSHAKE</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check valid/ready flow control and stall handling across all AXI channels during burst transactions.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Issues continuous back-to-back memory and register transfers.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Randomly asserts/deasserts ready signals; verifies master correctly holds valid and data until ready is high.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip AXI handshake protocol compliance)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">IMEM_DUAL_PORT_ACCESS</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check Instruction Memory dual-port operation: CPU IFU instruction fetches and LSU/DMA data reads/writes.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Executes code from IMEM while testbench preloads hex data.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Verifies simultaneous IFU fetch and AXI slave access to IMEM (0x0000_0000 - 0x0000_FFFF) without conflict.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip dual-ported 64 KB SRAM memory)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">DMEM_BYTE_ENABLE_ACCESS</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check Data Memory byte-level access using 4-bit write strobes (wstrb) for 8-bit, 16-bit, and 32-bit accesses.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Performs uint8_t, uint16_t, and uint32_t stores and loads in DMEM (0x1000_0000 - 0x1000_FFFF).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Checks that only enabled byte lanes in memory are modified; non-targeted bytes remain preserved.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip 64 KB SRAM byte-enable mask logic)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">SOC_CPU_RESET_BOOT</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check VeeR-EL2 CPU boot from hardware reset, instruction fetch from 0x0000_0000, and stack initialization.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">crt0.s initializes stack pointer sp to 0x1000_FFF0, configures MRAC CSR (0x5555556A), and calls main().</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Deasserts rst_l; tracks CPU program counter (ifu_i0_pc); verifies execution starts at 0x0000_0000.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (CPU reset vector logic &amp; pipeline registers)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">SOC_CONSOLE_LOGGING</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check CPU firmware execution logs system progress, embeddings, and results via UART serial output.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Firmware executes print routines outputting 26 structured log lines to the console.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">UART monitor captures all characters from physical uart_tx_o pin; verifies 26 complete lines and pass string.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Physical uart_tx_o serial output wire)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">SOC_END2END_NORMAL_CLASSIFY</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check full autonomous pipeline classifying a normal image sample: DMA copy -&gt; CNN inference -&gt; Distance Match.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Orchestrates DMA transfer, CNN start, loads matching reference embedding, validates RESULT==1, logs PASS.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Scoreboard captures DMA transfer, validates CNN embedding vector, and verifies Distance IP outputs Match=1.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip accelerator pipeline &amp; distance scoring)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">SOC_END2END_ANOMALY_CLASSIFY</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check full autonomous pipeline classifying an anomaly image: DMA copy -&gt; CNN inference -&gt; Distance Anomaly.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Loads divergent reference embedding, triggers Distance IP, validates RESULT==0 (ANOMALY), logs PASS.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Scoreboard verifies Distance IP outputs Dist=800, Result=0, and flags anomaly detection.</Data></Cell>
+    <Cell ss:StyleID="InternalCell"><Data ss:Type="String">Internal (On-chip accelerator pipeline &amp; anomaly scoring)</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">SOC_FINAL_MAILBOX_HANDSHAKE</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Check system completion handshake via DMEM mailbox (0x1000_FF00) and final GPIO output pin state (0x00000055).</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Writes 0xCAFE0001 to MAILBOX_REG (0x1000_FF00); drives GPIO_OUT = 0x00000055; enters sleep.</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Testbench samples physical gpio_o pins for 0x00000055 and checks DMEM mailbox holds 0xCAFE0001 before exiting.</Data></Cell>
+    <Cell ss:StyleID="ExternalCell"><Data ss:Type="String">External (Drives physical gpio_o pins &amp; internal mailbox)</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>

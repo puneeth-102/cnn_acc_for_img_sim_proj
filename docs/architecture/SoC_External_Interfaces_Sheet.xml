@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="Header">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#000000"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#000000"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#000000"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2" ss:Color="#000000"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#FFFFFF" ss:Bold="1"/>
+   <Interior ss:Color="#0D3B66" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="DataCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#000000"/>
+  </Style>
+  <Style ss:ID="SignalCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Consolas" ss:Size="10" ss:Color="#1D3557" ss:Bold="1"/>
+  </Style>
+  <Style ss:ID="InputCell">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#1E4620" ss:Bold="1"/>
+   <Interior ss:Color="#E8F5E9" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="OutputCell">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#8B0000" ss:Bold="1"/>
+   <Interior ss:Color="#FFEBEE" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="GroupCell">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D3D3D3"/>
+   </Borders>
+   <Font ss:FontName="Calibri" ss:Size="10" ss:Color="#2C3E50" ss:Bold="1"/>
+   <Interior ss:Color="#F4F6F9" ss:Pattern="Solid"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="External Interfaces">
+  <Table ss:ExpandedColumnCount="7" x:FullColumns="1" x:FullRows="1" ss:DefaultRowHeight="20">
+   <Column ss:Width="140"/>
+   <Column ss:Width="150"/>
+   <Column ss:Width="80"/>
+   <Column ss:Width="70"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="170"/>
+   <Column ss:Width="350"/>
+   <Row ss:Height="28">
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Interface Group</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Signal / Pin Name</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Direction</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Width</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Connected Internal Block</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">Protocol / Standard</Data></Cell>
+    <Cell ss:StyleID="Header"><Data ss:Type="String">What / How We Are Using It</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Clock &amp; Reset</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">clk</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Global SoC Clock Tree</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Single-ended CMOS Clock</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Primary 100 MHz system clock driving the VeeR-EL2 CPU core, 2x8 AXI4 crossbar, DMA engine, CNN accelerator, Distance IP, and peripheral wrappers.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Clock &amp; Reset</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">rst_l</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Global Reset Controller</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-Low Synchronous Reset</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Primary system reset. When held low (0), resets all CPU pipeline registers, AXI bus arbiters, DMA FSM, and memory-mapped control registers to defaults.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Clock &amp; Reset</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">dbg_rst_l</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Subsystem</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-Low Reset</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Dedicated reset for on-chip RISC-V debug module and JTAG TAP controller; allows CPU reset without destroying active debug sessions.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">UART Serial Console</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">uart_tx_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">axi_uart_top (M02)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">RS-232 / UART (8N1 @ Divisor 16)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Serial transmit wire to host PC/terminal. Transmits 26 structured ASCII log lines during boot, DMA transfer status, CNN embedding vectors, and final PASS banner.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">UART Serial Console</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">uart_rx_i</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">axi_uart_top (M02)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">RS-232 / UART (8N1)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Serial receive wire for external host commands or image data streaming into the SoC UART RX FIFO (held idle-high in simulation).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">PULP 32-bit GPIO</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_o[31:0]</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">32-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Parallel Digital CMOS I/O</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Physical status output pins. Driven by firmware to broadcast execution phases: 0x01 (CPU Boot Done), 0x02 (DMA Copy Done), 0x04 (CNN Inference Done), 0x55 (All Tests Passed).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">PULP 32-bit GPIO</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_i[31:0]</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">32-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Parallel Digital CMOS I/O</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External digital inputs connected to board switches, pushbuttons, or external trigger sensors; passed through an on-chip 2-stage synchronizer to prevent metastability.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">PULP 32-bit GPIO</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_dir_o[31:0]</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">32-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Direction Control Strobe</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Controls external bi-directional I/O pad buffers (1 = Output drive enabled, 0 = High-impedance / Input mode) based on the GPIO_EN configuration register.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Hardware Interrupt Outputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">dma_irq_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">dma_axi_wrapper (M07)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse / Level IRQ</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts high when DMA controller finishes a block transfer (e.g. 256-byte image copy from DMEM to CNN buffer); cleared synchronously via Write-1-to-Clear (W1C).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Hardware Interrupt Outputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">cnn_irq_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">cnn_axi_wrapper (M05)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse / Level IRQ</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts high when CNN hardware accelerator completes Conv3x3 -&gt; ReLU -&gt; MaxPool -&gt; FC inference and valid 16-D embedding vector is ready in output registers.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Hardware Interrupt Outputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">dist_irq_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">distance_axi_wrapper (M06)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse / Level IRQ</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts high when Distance/Anomaly engine finishes Manhattan scoring and threshold comparison; signals valid RESULT (Match/Anomaly) and MIN_DISTANCE.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Hardware Interrupt Outputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">uart_irq_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">axi_uart_top (M02)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level IRQ</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts when UART transmitter FIFO is empty (THRE) or when incoming character bytes are available in the UART receiver FIFO.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Hardware Interrupt Outputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">timer_irq_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">timer_axi_wrapper (M03)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level IRQ</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts when 64-bit real-time counter MTIME matches or exceeds programmed comparator threshold MTIMECMP; provides periodic RTOS/firmware tick.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Hardware Interrupt Outputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">gpio_irq_o</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">gpio_axi_wrapper (M04)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Pulse / Level IRQ</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Asserts when any enabled GPIO input pin detects a configured rising-edge, falling-edge, or level-sensitive transition.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Core Interrupt Inputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">timer_int</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU PIC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External machine timer interrupt input wired into the VeeR-EL2 Programmable Interrupt Controller (PIC).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">Core Interrupt Inputs</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">soft_int</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU PIC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-High Level</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External inter-processor / software interrupt line routed to VeeR-EL2 PIC for multi-core IPC or OS rescheduling.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tck</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Module (TAP)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Clock</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Test Clock input; clocks instruction register (IR) and data register (DR) scan chains for OpenOCD/GDB hardware debugging.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tms</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Module (TAP)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Control</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Test Mode Select; controls state machine transitions of the standard 16-state TAP controller.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tdi</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Module (TAP)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Serial In</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Test Data In; serial data stream containing CPU debug commands, breakpoint registers, and memory access requests.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_trst_n</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Module (TAP)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Active-Low Reset</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Test Reset; asynchronous hardware reset pin that resets TAP controller state to Test-Logic-Reset.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tdo</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Module (TAP)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">IEEE 1149.1 Serial Out</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">JTAG Test Data Out; serial data stream returning CPU register values, program counter, and debug status to host debugger.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">JTAG Hardware Debug</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">jtag_tdoEn</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">VeeR Debug Module (TAP)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Tri-State Pad Enable</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Output driver enable control for external bi-directional JTAG TDO pad buffer (high only when TAP is in Shift-IR / Shift-DR state).</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">i_cpu_halt_req</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU MPC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Control</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External hardware CPU halt request; forces VeeR-EL2 core to pause instruction fetch and pipeline for power saving or external debug control.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_cpu_halt_ack</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU MPC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Acknowledge</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Acknowledge signal asserted by CPU when all outstanding load/store transactions finish and the pipeline has safely entered the halted state.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_cpu_halt_status</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU MPC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Status Indicator</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Continuous status flag indicating whether the VeeR-EL2 CPU core is currently halted.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">i_cpu_run_req</Data></Cell>
+    <Cell ss:StyleID="InputCell"><Data ss:Type="String">Input</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU MPC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Control</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">External hardware CPU run request; resumes instruction fetching and execution for a previously halted CPU core.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_cpu_run_ack</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU MPC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Handshake Acknowledge</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Acknowledge signal asserted by CPU confirming that the core has successfully resumed active instruction execution.</Data></Cell>
+   </Row>
+   <Row ss:AutoFitHeight="1">
+    <Cell ss:StyleID="GroupCell"><Data ss:Type="String">CPU Control &amp; Status</Data></Cell>
+    <Cell ss:StyleID="SignalCell"><Data ss:Type="String">o_debug_mode_status</Data></Cell>
+    <Cell ss:StyleID="OutputCell"><Data ss:Type="String">Output</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">1-bit</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">el2_veer_wrapper (CPU MPC)</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Status Indicator</Data></Cell>
+    <Cell ss:StyleID="DataCell"><Data ss:Type="String">Status output signal indicating that the RISC-V core is currently halted in debug mode under JTAG/DMI debugger control.</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>
