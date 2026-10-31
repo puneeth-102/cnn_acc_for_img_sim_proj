@@ -1,0 +1,64 @@
+Magic 271485
+addGroup "Clock and Reset (VIP)"
+activeDirFile "" "/home/student/cnn_acc_for_img_sim_proj/build_soc/uvm_soc_sim.fsdb"
+addSignal -h 15 /tb_top/root_clk
+addSignal -h 15 /tb_top/clk_rst_vif/rst_l
+addSignal -h 15 /tb_top/clk_rst_vif/dbg_rst_l
+
+addGroup "1. CPU Instructions & PC (VeeR-EL2)"
+addSignal -h 15 -HEX /tb_top/u_dut/rvtop/trace_rv_i_address_ip[31:0]
+addSignal -h 15 -HEX /tb_top/u_dut/rvtop/trace_rv_i_insn_ip[31:0]
+addSignal -h 15 /tb_top/u_dut/rvtop/trace_rv_i_valid_ip
+
+addGroup "2. Arithmetic in Memory (10, 20, 5, 25)"
+addSignal -h 15 -HEX /tb_top/u_dut/m01_axi_awaddr[31:0]
+addSignal -h 15 -DEC /tb_top/u_dut/m01_axi_wdata[31:0]
+addSignal -h 15 -HEX /tb_top/u_dut/m01_axi_wdata[31:0]
+addSignal -h 15 /tb_top/u_dut/m01_axi_wvalid
+
+addGroup "3. AXI Interconnect (CPU Master S00)"
+addSignal -h 15 -HEX /tb_top/u_dut/s00_axi_awaddr[31:0]
+addSignal -h 15 /tb_top/u_dut/s00_axi_awvalid
+addSignal -h 15 /tb_top/u_dut/s00_axi_awready
+addSignal -h 15 -HEX /tb_top/u_dut/s00_axi_wdata[31:0]
+addSignal -h 15 /tb_top/u_dut/s00_axi_wvalid
+addSignal -h 15 /tb_top/u_dut/s00_axi_wready
+addSignal -h 15 -HEX /tb_top/u_dut/s00_axi_araddr[31:0]
+addSignal -h 15 /tb_top/u_dut/s00_axi_arvalid
+addSignal -h 15 /tb_top/u_dut/s00_axi_arready
+addSignal -h 15 -HEX /tb_top/u_dut/s00_axi_rdata[31:0]
+addSignal -h 15 /tb_top/u_dut/s00_axi_rvalid
+addSignal -h 15 /tb_top/u_dut/s00_axi_rready
+
+addGroup "4. UART AXI Slave (M02) & Config"
+addSignal -h 15 -HEX /tb_top/u_dut/m02_axi_awaddr[31:0]
+addSignal -h 15 -HEX /tb_top/u_dut/m02_axi_wdata[31:0]
+addSignal -h 15 /tb_top/u_dut/m02_axi_wvalid
+addSignal -h 15 -HEX /tb_top/u_dut/u_uart/uart_config_reg_int[31:0]
+addSignal -h 15 -HEX /tb_top/u_dut/u_uart/baudrate_divisor_int[15:0]
+addSignal -h 15 -HEX /tb_top/u_dut/u_uart/uart_lsr_reg_int[31:0]
+
+addGroup "5. UART TX FIFO & Character Data"
+addSignal -h 15 /tb_top/u_dut/u_uart/axi_internal_fifo_tx_inst/push_i
+addSignal -h 15 -HEX -ASCII /tb_top/u_dut/u_uart/axi_internal_fifo_tx_inst/data_i[7:0]
+addSignal -h 15 /tb_top/u_dut/u_uart/axi_internal_fifo_tx_inst/pull_i
+addSignal -h 15 -HEX -ASCII /tb_top/u_dut/u_uart/axi_internal_fifo_tx_inst/data_o[7:0]
+addSignal -h 15 -HEX /tb_top/u_dut/u_uart/axi_internal_fifo_tx_inst/status_o[6:0]
+
+addGroup "6. UART Transmitter Core"
+addSignal -h 15 /tb_top/u_dut/u_uart/uart_controller_inst/uart_transmitter_inst/busy_o
+addSignal -h 15 /tb_top/u_dut/u_uart/uart_controller_inst/uart_transmitter_inst/tx_ready_o
+addSignal -h 15 /tb_top/u_dut/u_uart/uart_controller_inst/uart_transmitter_inst/tx_send_i
+addSignal -h 15 -HEX -ASCII /tb_top/u_dut/u_uart/uart_controller_inst/uart_transmitter_inst/tx_data_i[7:0]
+addSignal -h 15 /tb_top/u_dut/u_uart/uart_controller_inst/uart_transmitter_inst/tx_o
+
+addGroup "7. Physical External VIP Interfaces"
+addSignal -h 15 /tb_top/uart_vif/uart_tx_o
+addSignal -h 15 /tb_top/uart_vif/uart_rx_i
+addSignal -h 15 -HEX /tb_top/gpio_vif/gpio_o[31:0]
+addSignal -h 15 -HEX /tb_top/gpio_vif/gpio_i[31:0]
+addSignal -h 15 -HEX /tb_top/gpio_vif/gpio_dir_o[31:0]
+addSignal -h 15 /tb_top/irq_vif/uart_irq_o
+addSignal -h 15 /tb_top/irq_vif/dma_irq_o
+addSignal -h 15 /tb_top/irq_vif/cnn_irq_o
+addSignal -h 15 /tb_top/irq_vif/dist_irq_o
