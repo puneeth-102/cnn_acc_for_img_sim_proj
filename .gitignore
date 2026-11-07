@@ -40,4 +40,5 @@ verdiLog/
 *.bin
 *.o
 *.so
-*.a
+*.a*.swp
+*.swo

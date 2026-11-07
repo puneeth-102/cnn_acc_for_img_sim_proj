@@ -1,6 +1,6 @@
 class uart_driver extends uvm_driver #(uart_item);
     virtual uart_if vif;
-    real BIT_PERIOD_NS = 170.0; // Divisor 16 at 100 MHz
+    real BIT_PERIOD_NS = 160.0; // Divisor 16 at 100 MHz (16 clocks * 10ns = 160ns)
 
     `uvm_component_utils(uart_driver)
 

@@ -21,6 +21,8 @@ package soc_uvm_pkg;
     `include "soc_scoreboard.sv"
     `include "soc_env.sv"
     `include "soc_base_test.sv"
+    `include "soc_interactive_test.sv"
+    `include "tests.svh"
 
 endpackage : soc_uvm_pkg
 

@@ -46,9 +46,46 @@ class soc_scoreboard extends uvm_scoreboard;
         $fflush();
         received_banner = {received_banner, string'(item.char_data)};
 
-        // Check for expected arithmetic result in the serial stream
+        // Check for expected results in the serial stream
+        if (received_banner.len() >= 15) begin
+            // Check if string contains "[TEST PASSED]"
+            for (int i = 0; i <= received_banner.len() - 13; i++) begin
+                if (received_banner.substr(i, i+12) == "[TEST PASSED]") begin
+                    if (!pass_detected) begin
+                        pass_detected = 1;
+                        `uvm_info("SOC_SB", "\n==================================================", UVM_NONE)
+                        `uvm_info("SOC_SB", "*** UVM VERIFICATION SUCCESS: FIRMWARE SIGN-OFF [TEST PASSED] CONFIRMED! ***", UVM_NONE)
+                        `uvm_info("SOC_SB", "==================================================", UVM_NONE)
+                    end
+                end
+            end
+        end
+
+        if (received_banner.len() >= 15) begin
+            // Check if string contains "[TEST FAILED]"
+            for (int i = 0; i <= received_banner.len() - 13; i++) begin
+                if (received_banner.substr(i, i+12) == "[TEST FAILED]") begin
+                    `uvm_error("SOC_SB", "*** UVM VERIFICATION FAILURE: FIRMWARE REPORTED [TEST FAILED]! ***")
+                end
+            end
+        end
+
+        if (received_banner.len() >= 7) begin
+            // Check if string contains "Echo: 9" (Closed-Loop Driver Test)
+            for (int i = 0; i <= received_banner.len() - 7; i++) begin
+                if (received_banner.substr(i, i+6) == "Echo: 9") begin
+                    if (!pass_detected) begin
+                        pass_detected = 1;
+                        `uvm_info("SOC_SB", "\n==================================================", UVM_NONE)
+                        `uvm_info("SOC_SB", "*** UVM VERIFICATION SUCCESS: Driver '9' Echoed by CPU on uart_tx_o! ***", UVM_NONE)
+                        `uvm_info("SOC_SB", "==================================================", UVM_NONE)
+                    end
+                end
+            end
+        end
+
         if (received_banner.len() >= 11) begin
-            // Check if string contains "Result = 25"
+            // Check if string contains "Result = 25" (Base Arithmetic Test)
             for (int i = 0; i <= received_banner.len() - 11; i++) begin
                 if (received_banner.substr(i, i+10) == "Result = 25") begin
                     if (!pass_detected) begin
@@ -67,8 +104,18 @@ class soc_scoreboard extends uvm_scoreboard;
             boot_detected = 1;
             `uvm_info("SOC_SB", "BOOT START detected on GPIO output [0x00000001]", UVM_MEDIUM)
         end
+        if (item.gpio_o == 32'h00000055) begin
+            pass_detected = 1;
+            `uvm_info("SOC_SB", "*** GPIO Output indicates Test Pass: 0x00000055 ***", UVM_MEDIUM)
+        end
+        if (item.gpio_o == 32'h0000DEAD) begin
+            `uvm_error("SOC_SB", "*** GPIO Output indicates Test Failure: 0x0000DEAD ***")
+        end
         if (item.gpio_o == 32'h00000025) begin
             `uvm_info("SOC_SB", "*** GPIO Output matches Arithmetic Result: 0x00000025 (Decimal 25) ***", UVM_MEDIUM)
+        end
+        if (item.gpio_o == 32'h00000039) begin
+            `uvm_info("SOC_SB", "*** GPIO Output matches Received Character: 0x00000039 (ASCII '9') ***", UVM_MEDIUM)
         end
     endfunction
 
@@ -83,9 +130,9 @@ class soc_scoreboard extends uvm_scoreboard;
         super.check_phase(phase);
         `uvm_info("SOC_SB", $sformatf("--- Scoreboard Final Check: %0d UART characters processed ---", uart_char_count), UVM_LOW)
         if (!pass_detected) begin
-            `uvm_error("SOC_SB", "Verification FAILED: 'Result = 25' was NOT received over UART!")
+            `uvm_error("SOC_SB", "Verification FAILED: Expected pass signature was NOT received over UART!")
         end else begin
-            `uvm_info("SOC_SB", "Verification PASSED: Arithmetic execution confirmed on both UART serial and GPIO parallel pins.", UVM_LOW)
+            `uvm_info("SOC_SB", "Verification PASSED: Execution confirmed on both UART serial and GPIO parallel pins.", UVM_LOW)
         end
     endfunction
 endclass

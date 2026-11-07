@@ -62,3 +62,10 @@ addSignal -h 15 /tb_top/irq_vif/uart_irq_o
 addSignal -h 15 /tb_top/irq_vif/dma_irq_o
 addSignal -h 15 /tb_top/irq_vif/cnn_irq_o
 addSignal -h 15 /tb_top/irq_vif/dist_irq_o
+addSignal -h 15 /tb_top/irq_vif/timer_irq_o
+addSignal -h 15 /tb_top/irq_vif/gpio_irq_o
+addSignal -h 15 /tb_top/jtag_vif/jtag_tck
+addSignal -h 15 /tb_top/jtag_vif/jtag_tms
+addSignal -h 15 /tb_top/jtag_vif/jtag_tdi
+addSignal -h 15 /tb_top/jtag_vif/jtag_tdo
+addSignal -h 15 /tb_top/jtag_vif/jtag_tdoEn
