@@ -16,7 +16,9 @@ class gpio_monitor extends uvm_monitor;
             @(posedge vif.clk);
             if (vif.gpio_o !== prev_gpio) begin
                 gpio_item item = gpio_item::type_id::create("item");
-                item.gpio_o = vif.gpio_o;
+                item.gpio_o     = vif.gpio_o;
+                item.gpio_dir_o = vif.gpio_dir_o;
+                item.gpio_irq_o = vif.gpio_irq_o;
                 prev_gpio = vif.gpio_o;
                 ap.write(item);
             end

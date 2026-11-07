@@ -73,9 +73,9 @@ class soc_scoreboard extends uvm_scoreboard;
     endfunction
 
     virtual function void write_irq(irq_item item);
-        if (item.uart_irq_o || item.dma_irq_o || item.cnn_irq_o || item.dist_irq_o) begin
-            `uvm_info("SOC_SB", $sformatf("Interrupt pulse observed: UART=%b DMA=%b CNN=%b DIST=%b",
-                      item.uart_irq_o, item.dma_irq_o, item.cnn_irq_o, item.dist_irq_o), UVM_HIGH)
+        if (item.uart_irq_o || item.dma_irq_o || item.cnn_irq_o || item.dist_irq_o || item.timer_irq_o || item.gpio_irq_o) begin
+            `uvm_info("SOC_SB", $sformatf("Interrupt transition observed: UART=%b DMA=%b CNN=%b DIST=%b TMR=%b GPIO=%b",
+                      item.uart_irq_o, item.dma_irq_o, item.cnn_irq_o, item.dist_irq_o, item.timer_irq_o, item.gpio_irq_o), UVM_MEDIUM)
         end
     endfunction
 
