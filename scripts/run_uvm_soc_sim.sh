@@ -45,7 +45,6 @@ vcs -full64 -sverilog -ntb_opts uvm -timescale=1ns/1ps \
   +incdir+tb/uvm \
   +incdir+tb/uvm/env \
   +incdir+tb/uvm/tests \
-  +incdir+tests \
   +incdir+tb/uvm/vips/clk_rst_uvm_tb \
   +incdir+tb/uvm/vips/uart_uvm_tb \
   +incdir+tb/uvm/vips/gpio_uvm_tb \
