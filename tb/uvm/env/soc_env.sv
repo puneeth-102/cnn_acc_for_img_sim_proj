@@ -74,9 +74,11 @@ class soc_env extends uvm_env;
         end
 
         // Connect Agent Monitor Analysis Ports to Scoreboard Exports
+        clk_rst_agt.mon.ap.connect(sb.clk_rst_export);
         uart_agt.mon.ap.connect(sb.uart_export);
         gpio_agt.mon.ap.connect(sb.gpio_export);
         irq_agt.mon.ap.connect(sb.irq_export);
+        jtag_agt.mon.ap.connect(sb.jtag_export);
     endfunction
 endclass
 

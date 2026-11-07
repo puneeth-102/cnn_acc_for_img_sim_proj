@@ -18,7 +18,11 @@ cd "${REPO_DIR}"
 mkdir -p build_uvm
 
 UVM_TEST="${1:-soc_base_test}"
-HEX_FILE="${2:-sw/riscv_test/simple_test.hex}"
+DEFAULT_HEX="sw/riscv_test/simple_test.hex"
+if [ -f "sw/tests/${UVM_TEST}/main.hex" ]; then
+    DEFAULT_HEX="sw/tests/${UVM_TEST}/main.hex"
+fi
+HEX_FILE="${2:-${DEFAULT_HEX}}"
 
 echo "================================================================="
 echo "  COMPILING VEER-EL2 CNN SOC UVM TESTBENCH WITH SYNOPSYS VCS"
